@@ -38,7 +38,11 @@ public class SecurityConfiguration {
                 session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
         );
 
-        http.authorizeHttpRequests(authHttpRequest -> authHttpRequest.requestMatchers("/v1/auth/**").permitAll().anyRequest().authenticated());
+        http.authorizeHttpRequests(authHttpRequest ->
+                authHttpRequest.requestMatchers("/v1/auth/**")
+                        .permitAll()
+                        .anyRequest()
+                        .authenticated());
         http.anonymous(AbstractHttpConfigurer::disable);
 
         return http.build();

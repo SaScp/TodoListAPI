@@ -15,6 +15,6 @@ create table if not exists t_task(
     status varchar(10) not null,
     create_at timestamp not null,
     expiration_date timestamp not null,
-    userid varchar(255) references t_user(uuid)
+    user_id varchar(255) references t_user(uuid)
     );
 

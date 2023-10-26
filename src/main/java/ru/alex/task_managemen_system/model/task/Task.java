@@ -1,6 +1,8 @@
 package ru.alex.task_managemen_system.model.task;
 
+import jakarta.persistence.*;
 import lombok.Data;
+import org.hibernate.annotations.CollectionType;
 import ru.alex.task_managemen_system.model.user.Role;
 import ru.alex.task_managemen_system.model.user.User;
 
@@ -9,18 +11,30 @@ import java.util.List;
 import java.util.Set;
 
 @Data
+@Entity
+@Table(name = "t_task")
 public class Task {
+
+    @Id
     private String uuid;
 
+    @Column(name = "title", nullable = false)
     private String title;
 
+    @Column(name = "description", nullable = false)
     private String description;
 
+    @Column(name = "status", nullable = false)
+    @Enumerated(value = EnumType.STRING)
     private Set<Status> status;
 
+    @ManyToOne
+    @JoinColumn(name = "user_id", referencedColumnName = "uuid")
     private User user;
 
-    private ZonedDateTime create_at;
+    @Column(name = "create_at", nullable = false)
+    private ZonedDateTime createAt;
 
-    private ZonedDateTime expiration_date;
+    @Column(name = "expiration_date", nullable = false)
+    private ZonedDateTime expirationDate;
 }
