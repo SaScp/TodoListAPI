@@ -7,7 +7,7 @@ import ru.alex.task_managemen_system.model.dto.UpdateDTO;
 import ru.alex.task_managemen_system.model.dto.UserDTO;
 import ru.alex.task_managemen_system.model.user.Role;
 import ru.alex.task_managemen_system.model.user.User;
-import ru.alex.task_managemen_system.repository.UseRepository;
+import ru.alex.task_managemen_system.repository.UserRepository;
 import ru.alex.task_managemen_system.service.update.UpdateComponent;
 import ru.alex.task_managemen_system.service.update.UpdateEmail;
 import ru.alex.task_managemen_system.service.update.UpdateName;
@@ -22,7 +22,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class UserServiceImpl {
 
-    private final UseRepository userRepository;
+    private final UserRepository userRepository;
     private final ModelMapper modelMapper;
     public void save(UserDTO userDTO) {
 
