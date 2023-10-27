@@ -30,7 +30,7 @@ public class UserDetailsImpl implements UserDetails {
 
     @Override
     public boolean isAccountNonLocked() {
-        if (authorities.contains("BLOCK")) {
+        if (authorities.contains(new SimpleGrantedAuthority("BLOCK"))) {
             return false;
         }
         return true;
