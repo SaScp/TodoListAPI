@@ -27,7 +27,8 @@ public class AuthProvider implements AuthenticationProvider {
         }
 
         if (userDetails.isAccountNonExpired()) {
-            throw new AccountIsBlockException();
+            throw new AccountIsBlockException(
+                    String.format("Account with email %s is block", userDetails.getUsername()));
         }
 
         return new UsernamePasswordAuthenticationToken(
