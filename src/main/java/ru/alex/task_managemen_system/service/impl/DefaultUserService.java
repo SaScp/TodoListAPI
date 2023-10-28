@@ -18,9 +18,9 @@ import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
-@Service
+@Service("defaultUserServiceBean")
 @RequiredArgsConstructor
-public class UserServiceImpl {
+public class DefaultUserService {
 
     private final UserRepository userRepository;
     private final ModelMapper modelMapper;
@@ -48,9 +48,15 @@ public class UserServiceImpl {
             i.execute(updateDTO, user);
         }
     }
+
+    public UserDTO getUserByUUID(String uuid) {
+        return convertUserToUserDto(userRepository.getReferenceById(uuid));
+    }
     private User convertUserDtoToUser(UserDTO userDTO) {
         return modelMapper.map(userDTO, User.class);
     }
-
+    private UserDTO convertUserToUserDto(User user) {
+        return modelMapper.map(user, UserDTO.class);
+    }
 
 }

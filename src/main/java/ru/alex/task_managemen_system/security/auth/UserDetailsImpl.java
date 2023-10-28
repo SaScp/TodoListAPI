@@ -1,4 +1,4 @@
-package ru.alex.task_managemen_system.security;
+package ru.alex.task_managemen_system.security.auth;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
