@@ -2,11 +2,10 @@ package ru.alex.task_managemen_system.service.impl;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import ru.alex.task_managemen_system.service.UserService;
 
-@Service
+@Service("defaultTaskServiceBean")
 @RequiredArgsConstructor
-public class TaskServiceImpl {
+public class DefaultTaskService {
 
 
 

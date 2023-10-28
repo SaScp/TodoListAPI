@@ -4,15 +4,15 @@ import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import ru.alex.task_managemen_system.model.dto.UserDTO;
-import ru.alex.task_managemen_system.service.impl.UserServiceImpl;
+import ru.alex.task_managemen_system.service.impl.DefaultUserService;
 
 @AutoConfigureMockMvc
 public class UserServiceTest {
 
     @MockBean
-    private final UserServiceImpl userService;
+    private final DefaultUserService userService;
 
-    public UserServiceTest(UserServiceImpl userService) {
+    public UserServiceTest(DefaultUserService userService) {
         this.userService = userService;
     }
 
