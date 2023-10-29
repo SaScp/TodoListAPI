@@ -3,8 +3,9 @@ package ru.alex.task_managemen_system.service.impl;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
+import ru.alex.task_managemen_system.model.dto.RegistrationDTO;
 import ru.alex.task_managemen_system.model.dto.UpdateDTO;
-import ru.alex.task_managemen_system.model.dto.UserDTO;
+import ru.alex.task_managemen_system.model.dto.Token;
 import ru.alex.task_managemen_system.model.user.Role;
 import ru.alex.task_managemen_system.model.user.User;
 import ru.alex.task_managemen_system.repository.UserRepository;
@@ -12,6 +13,7 @@ import ru.alex.task_managemen_system.service.update.UpdateComponent;
 import ru.alex.task_managemen_system.service.update.UpdateEmail;
 import ru.alex.task_managemen_system.service.update.UpdateName;
 import ru.alex.task_managemen_system.service.update.UpdatePassword;
+import ru.alex.task_managemen_system.util.exception.UserNotFoundException;
 
 import java.time.ZonedDateTime;
 import java.util.Collections;
@@ -24,9 +26,10 @@ public class DefaultUserService {
 
     private final UserRepository userRepository;
     private final ModelMapper modelMapper;
-    public void save(UserDTO userDTO) {
 
-        User user = convertUserDtoToUser(userDTO);
+    public void save(RegistrationDTO userDTO) {
+
+        User user = convertregistrationDtoToUser(userDTO);
         String uuid = UUID.randomUUID().toString();
 
         user.setUuid(UUID.randomUUID().toString());
@@ -35,9 +38,10 @@ public class DefaultUserService {
         user.setCreateAt(ZonedDateTime.now());
         user.setUpdateAt(ZonedDateTime.now());
 
+        userRepository.save(user);
     }
 
-    public void update(UpdateDTO updateDTO,  String uuid) {
+    public void update(UpdateDTO updateDTO, String uuid) {
         List<UpdateComponent> updateComponents = List.of(
                 new UpdateName(),
                 new UpdateEmail(),
@@ -47,16 +51,18 @@ public class DefaultUserService {
         for (var i : updateComponents) {
             i.execute(updateDTO, user);
         }
+        userRepository.save(user);
     }
 
-    public UserDTO getUserByUUID(String uuid) {
-        return convertUserToUserDto(userRepository.getReferenceById(uuid));
-    }
-    private User convertUserDtoToUser(UserDTO userDTO) {
-        return modelMapper.map(userDTO, User.class);
-    }
-    private UserDTO convertUserToUserDto(User user) {
-        return modelMapper.map(user, UserDTO.class);
+    public User getUserByUUID(String uuid) {
+        return userRepository.getReferenceById(uuid);
     }
 
+    public User getUserByEmail(String email) {
+        return userRepository.getUserByEmail(email).orElseThrow(UserNotFoundException::new);
+    }
+
+    private User convertregistrationDtoToUser(RegistrationDTO registrationDTO) {
+        return modelMapper.map(registrationDTO, User.class);
+    }
 }

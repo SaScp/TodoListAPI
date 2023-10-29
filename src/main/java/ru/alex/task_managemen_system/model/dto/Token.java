@@ -6,8 +6,8 @@ import ru.alex.task_managemen_system.model.user.Role;
 import java.util.Set;
 
 @Data
-public class UserDTO {
-    private String name;
+public class Token {
+    private String uuid;
     private String email;
     private Set<Role> roles;
 }

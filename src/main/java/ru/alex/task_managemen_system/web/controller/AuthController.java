@@ -9,4 +9,6 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/v1/auth/")
 public class AuthController {
 
+
+
 }

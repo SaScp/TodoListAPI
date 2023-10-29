@@ -2,4 +2,7 @@ spring:
   sql:
     init:
       mode: always
-
+jwt:
+  secret:
+    access: pmAwd5izmqEULionmIAPrA==
+    refresh: lKwppuqF4a+agwP0TIUo

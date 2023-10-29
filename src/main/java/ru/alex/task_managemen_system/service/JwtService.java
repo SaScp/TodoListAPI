@@ -10,7 +10,11 @@ public interface JwtService {
 
     public String createRefreshToken(String uuid, String email);
 
-    public boolean validator(String token);
+    public boolean validatorAccessToken(String token);
+
+    public String getUsername(String token);
+
+    public boolean validatorRefreshToken(String token);
 
     public String getUUID(String token);
 
