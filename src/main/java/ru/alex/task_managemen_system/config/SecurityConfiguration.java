@@ -11,6 +11,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import ru.alex.task_managemen_system.security.filter.JwtFilter;
 
 
@@ -26,8 +27,10 @@ public class SecurityConfiguration {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
         http.csrf(AbstractHttpConfigurer::disable);
+
         http.formLogin(formLoginConfigurer ->
-                formLoginConfigurer.loginPage("auth/login"));
+                formLoginConfigurer.loginPage("/v1/auth/login"));
+
         http.exceptionHandling(exceptionHandlingConfigurer ->
                 exceptionHandlingConfigurer.authenticationEntryPoint((request, response, authException) -> {
                     response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
@@ -48,6 +51,8 @@ public class SecurityConfiguration {
                         .anyRequest()
                         .authenticated());
         http.anonymous(AbstractHttpConfigurer::disable);
+
+        http.addFilterAfter(jwtFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }
