@@ -24,7 +24,7 @@ public class JwtFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         String bearerToken = request.getHeader("Authentication");
 
-        if (!bearerToken.isEmpty() && bearerToken != null && bearerToken.startsWith("Bearer ")) {
+        if (bearerToken != null && !bearerToken.isEmpty()  && bearerToken.startsWith("Bearer ")) {
             bearerToken = bearerToken.substring(7);
             if (!bearerToken.isBlank() && jwtService.validatorAccessToken(bearerToken)) {
                 try {

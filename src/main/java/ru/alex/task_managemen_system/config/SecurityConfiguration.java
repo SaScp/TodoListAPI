@@ -28,8 +28,7 @@ public class SecurityConfiguration {
 
         http.csrf(AbstractHttpConfigurer::disable);
 
-        http.formLogin(formLoginConfigurer ->
-                formLoginConfigurer.loginPage("/v1/auth/login"));
+        http.httpBasic(AbstractHttpConfigurer::disable);
 
         http.exceptionHandling(exceptionHandlingConfigurer ->
                 exceptionHandlingConfigurer.authenticationEntryPoint((request, response, authException) -> {

@@ -14,7 +14,7 @@ import ru.alex.task_managemen_system.service.AuthService;
 @RequiredArgsConstructor
 public class DefaultAuthService implements AuthService {
 
-    private final AuthProvider authProvider;
+    private final AuthenticationManager authProvider;
     private final DefaultUserService userService;
     private final DefaultJwtService jwtService;
 

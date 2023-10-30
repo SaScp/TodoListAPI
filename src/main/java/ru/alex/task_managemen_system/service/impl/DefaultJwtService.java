@@ -1,7 +1,6 @@
 package ru.alex.task_managemen_system.service.impl;
 
 import com.auth0.jwt.JWT;
-import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import lombok.RequiredArgsConstructor;
@@ -22,9 +21,10 @@ import java.time.ZonedDateTime;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
-@Service("defaultJwtServiceBean")
+@Service
 @RequiredArgsConstructor
 public class DefaultJwtService implements JwtService {
 
@@ -42,13 +42,13 @@ public class DefaultJwtService implements JwtService {
 
     public String createAccessToken(String uuid,
                                     String email,
-                                    Set<Role> roles) {
+                                    Role role) {
 
         return JWT.create()
                 .withSubject("user")
-                .withClaim("id", uuid)
+                .withClaim("id", uuid.toString())
                 .withClaim("email", email).
-                withClaim("roles", getRoles(roles))
+                withClaim("roles", getRole(role))
                 .withIssuedAt(Instant.from(now))
                 .withIssuer("Server")
                 .withExpiresAt(Instant.from(now.plusMinutes(90)))
@@ -61,7 +61,7 @@ public class DefaultJwtService implements JwtService {
 
         return JWT.create()
                 .withSubject("user")
-                .withClaim("id", uuid)
+                .withClaim("id", uuid.toString())
                 .withClaim("email", email)
                 .withIssuedAt(Instant.from(now))
                 .withIssuer("Server")
@@ -119,9 +119,7 @@ public class DefaultJwtService implements JwtService {
         return new UsernamePasswordAuthenticationToken(userDetails.getUsername(), "", userDetails.getAuthorities());
     }
 
-    private List<String> getRoles(Set<Role> roles) {
-        return roles.stream()
-                .map(Enum::name)
-                .collect(Collectors.toList());
+    private String getRole(Role role) {
+        return role.name();
     }
 }

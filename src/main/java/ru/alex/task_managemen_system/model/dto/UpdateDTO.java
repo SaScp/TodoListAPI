@@ -1,5 +1,7 @@
 package ru.alex.task_managemen_system.model.dto;
 
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import lombok.Getter;
 
@@ -7,6 +9,10 @@ import lombok.Getter;
 public class UpdateDTO {
 
     private String name;
-    private String password;
+    @Email
+    @NotNull(message = "the email must not be null")
     private String email;
+
+    @NotNull(message = "the password must not be null")
+    private String password;
 }

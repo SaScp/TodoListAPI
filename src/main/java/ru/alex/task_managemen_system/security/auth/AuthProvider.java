@@ -20,13 +20,15 @@ public class AuthProvider implements AuthenticationProvider {
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
 
-        UserDetails userDetails =  userDetailsService.loadUserByUsername(authentication.getName());
+        String name = authentication.getName();
+
+        UserDetails userDetails =  userDetailsService.loadUserByUsername(name);
 
         if (!passwordEncoder.matches(authentication.getCredentials().toString(), userDetails.getPassword())) {
             throw new PasswordEncoderException();
         }
 
-        if (userDetails.isAccountNonExpired()) {
+        if (!userDetails.isAccountNonExpired()) {
             throw new AccountIsBlockException(
                     String.format("Account with email %s is block", userDetails.getUsername()));
         }
