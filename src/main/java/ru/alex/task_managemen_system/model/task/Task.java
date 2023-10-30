@@ -6,6 +6,7 @@ import org.hibernate.annotations.CollectionType;
 import ru.alex.task_managemen_system.model.user.Role;
 import ru.alex.task_managemen_system.model.user.User;
 
+import java.io.Serializable;
 import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.Set;
@@ -26,7 +27,7 @@ public class Task {
 
     @Column(name = "status", nullable = false)
     @Enumerated(value = EnumType.STRING)
-    private Set<Status> status;
+    private Status status;
 
     @ManyToOne
     @JoinColumn(name = "user_id", referencedColumnName = "uuid")

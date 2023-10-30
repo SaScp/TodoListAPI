@@ -6,6 +6,7 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import ru.alex.task_managemen_system.model.task.Task;
 
+import java.io.Serializable;
 import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.Set;
@@ -14,7 +15,7 @@ import java.util.UUID;
 @Data
 @Entity
 @Table(name = "t_user")
-public class User {
+public class User implements Serializable {
 
     @Id
     @Column(name = "uuid")

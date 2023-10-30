@@ -51,7 +51,7 @@ public class SecurityConfiguration {
                         .authenticated());
         http.anonymous(AbstractHttpConfigurer::disable);
 
-        http.addFilterAfter(jwtFilter, UsernamePasswordAuthenticationFilter.class);
+        http.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }

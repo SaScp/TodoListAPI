@@ -38,7 +38,7 @@ public class DefaultJwtService implements JwtService {
     @Value("${jwt.secret.refresh}")
     private String refreshSecret;
 
-    private static final  ZonedDateTime now = ZonedDateTime.now();
+    private static final ZonedDateTime now = ZonedDateTime.now();
 
     public String createAccessToken(String uuid,
                                     String email,
@@ -46,7 +46,7 @@ public class DefaultJwtService implements JwtService {
 
         return JWT.create()
                 .withSubject("user")
-                .withClaim("id", uuid.toString())
+                .withClaim("id", uuid)
                 .withClaim("email", email).
                 withClaim("roles", getRole(role))
                 .withIssuedAt(Instant.from(now))
@@ -57,11 +57,11 @@ public class DefaultJwtService implements JwtService {
 
 
     public String createRefreshToken(String uuid,
-                                    String email) {
+                                     String email) {
 
         return JWT.create()
                 .withSubject("user")
-                .withClaim("id", uuid.toString())
+                .withClaim("id", uuid)
                 .withClaim("email", email)
                 .withIssuedAt(Instant.from(now))
                 .withIssuer("Server")
@@ -103,6 +103,7 @@ public class DefaultJwtService implements JwtService {
                 .build()
                 .verify(token);
     }
+
     public String getUUID(String token) {
         return getVerifier(token, refreshSecret).getClaim("id").asString();
     }

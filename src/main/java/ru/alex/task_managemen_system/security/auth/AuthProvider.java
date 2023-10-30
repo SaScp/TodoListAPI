@@ -17,12 +17,13 @@ public class AuthProvider implements AuthenticationProvider {
 
     private final UserDetailsServiceImpl userDetailsService;
     private final BCryptPasswordEncoder passwordEncoder;
+
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
 
         String name = authentication.getName();
 
-        UserDetails userDetails =  userDetailsService.loadUserByUsername(name);
+        UserDetails userDetails = userDetailsService.loadUserByUsername(name);
 
         if (!passwordEncoder.matches(authentication.getCredentials().toString(), userDetails.getPassword())) {
             throw new PasswordEncoderException();
