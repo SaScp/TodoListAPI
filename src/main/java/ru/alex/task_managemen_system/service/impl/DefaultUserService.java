@@ -49,7 +49,7 @@ public class DefaultUserService {
         return user;
     }
 
-    public void update(UpdateDTO updateDTO, String uuid) {
+    public User update(UpdateDTO updateDTO, String uuid) {
         List<UpdateComponent> updateComponents = List.of(
                 new UpdateName(),
                 new UpdateEmail(),
@@ -60,10 +60,11 @@ public class DefaultUserService {
             i.execute(updateDTO, user);
         }
         userRepository.save(user);
+        return user;
     }
 
     public User getUserByUUID(String uuid) {
-        return userRepository.getReferenceById(uuid);
+        return userRepository.findById(uuid).orElseThrow(UserNotFoundException::new);
     }
 
     public User getUserByEmail(String email) {

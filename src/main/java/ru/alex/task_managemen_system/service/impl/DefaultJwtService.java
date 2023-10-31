@@ -73,7 +73,7 @@ public class DefaultJwtService implements JwtService {
         JwtResponse jwtResponse = new JwtResponse();
 
         if (!validatorRefreshToken(refreshToken)) {
-            throw new AccessDeniedException();
+            throw new AccessDeniedException("refresh token a is invalid");
         }
 
         String id = getUUID(refreshToken);

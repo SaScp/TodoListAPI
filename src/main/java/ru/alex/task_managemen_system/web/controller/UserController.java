@@ -2,10 +2,9 @@ package ru.alex.task_managemen_system.web.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import ru.alex.task_managemen_system.model.dto.UpdateDTO;
+import ru.alex.task_managemen_system.model.dto.UserDTO;
 import ru.alex.task_managemen_system.model.user.User;
 import ru.alex.task_managemen_system.service.impl.DefaultUserService;
 
@@ -22,6 +21,13 @@ public class UserController {
         return ResponseEntity
                 .ok()
                 .body(userService.getUserByUUID(id));
+    }
+
+    @PatchMapping("/{id}/update")
+    public ResponseEntity<User> update(@PathVariable("id") String id, UpdateDTO updateDTO) {
+        return ResponseEntity
+                .ok()
+                .body(userService.update(updateDTO, id));
     }
 
 }

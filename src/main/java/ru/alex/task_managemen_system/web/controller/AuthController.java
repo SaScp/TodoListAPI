@@ -31,7 +31,7 @@ public class AuthController {
     public ResponseEntity<JwtResponse> login(@RequestBody @Valid final LoginDTO loginDTO, BindingResult bindingResult) {
 
         if (bindingResult.hasErrors()) {
-            throw new AccessDeniedException();
+            throw new AccessDeniedException("Login or password a is invalid");
         }
         return ResponseEntity
                 .accepted()
