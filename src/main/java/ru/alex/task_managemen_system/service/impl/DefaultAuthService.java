@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.stereotype.Service;
-import ru.alex.task_managemen_system.model.dto.LoginDTO;
+import ru.alex.task_managemen_system.model.dto.user.LoginDTO;
 import ru.alex.task_managemen_system.model.response.JwtResponse;
 import ru.alex.task_managemen_system.model.user.User;
 import ru.alex.task_managemen_system.service.AuthService;

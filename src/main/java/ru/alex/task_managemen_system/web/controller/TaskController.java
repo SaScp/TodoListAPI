@@ -2,11 +2,9 @@ package ru.alex.task_managemen_system.web.controller;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import ru.alex.task_managemen_system.model.dto.RegistrationTaskDTO;
-import ru.alex.task_managemen_system.model.dto.TaskDTO;
-import ru.alex.task_managemen_system.model.task.Task;
+import ru.alex.task_managemen_system.model.dto.task.RegistrationTaskDTO;
+import ru.alex.task_managemen_system.model.dto.task.TaskDTO;
 import ru.alex.task_managemen_system.service.impl.DefaultTaskService;
 
 import java.util.List;

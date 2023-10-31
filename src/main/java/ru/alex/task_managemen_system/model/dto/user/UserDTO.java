@@ -1,18 +1,22 @@
-package ru.alex.task_managemen_system.model.dto;
+package ru.alex.task_managemen_system.model.dto.user;
 
+import jakarta.persistence.Column;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
-import lombok.Getter;
 
 @Data
-public class UpdateDTO {
+public class UserDTO {
+
 
     private String name;
+
     @Email
     @NotNull(message = "the email must not be null")
     private String email;
 
     @NotNull(message = "the password must not be null")
     private String password;
+
+
 }

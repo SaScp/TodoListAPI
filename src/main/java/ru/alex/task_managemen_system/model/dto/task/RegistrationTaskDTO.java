@@ -1,4 +1,4 @@
-package ru.alex.task_managemen_system.model.dto;
+package ru.alex.task_managemen_system.model.dto.task;
 
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;

@@ -5,8 +5,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import ru.alex.task_managemen_system.model.dto.LoginDTO;
-import ru.alex.task_managemen_system.model.dto.UserDTO;
+import ru.alex.task_managemen_system.model.dto.user.LoginDTO;
+import ru.alex.task_managemen_system.model.dto.user.UserDTO;
 import ru.alex.task_managemen_system.model.response.JwtResponse;
 import ru.alex.task_managemen_system.model.user.User;
 import ru.alex.task_managemen_system.repository.UserRepository;
@@ -15,7 +15,6 @@ import ru.alex.task_managemen_system.service.impl.DefaultUserService;
 import ru.alex.task_managemen_system.util.exception.AccessDeniedException;
 
 import java.util.List;
-import java.util.UUID;
 
 @RestController
 @RequiredArgsConstructor

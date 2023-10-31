@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
-import ru.alex.task_managemen_system.model.dto.UserDTO;
+import ru.alex.task_managemen_system.model.dto.user.UserDTO;
 import ru.alex.task_managemen_system.model.user.User;
 import ru.alex.task_managemen_system.repository.UserRepository;
 

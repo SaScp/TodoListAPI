@@ -1,6 +1,6 @@
 package ru.alex.task_managemen_system.service;
 
-import ru.alex.task_managemen_system.model.dto.UpdateDTO;
+import ru.alex.task_managemen_system.model.dto.user.UpdateDTO;
 import ru.alex.task_managemen_system.model.dto.Token;
 
 public interface UserService {

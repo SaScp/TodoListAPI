@@ -6,8 +6,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.BindingResult;
 import ru.alex.task_managemen_system.util.validator.UserRegistrationValidator;
-import ru.alex.task_managemen_system.model.dto.UserDTO;
-import ru.alex.task_managemen_system.model.dto.UpdateDTO;
+import ru.alex.task_managemen_system.model.dto.user.UserDTO;
+import ru.alex.task_managemen_system.model.dto.user.UpdateDTO;
 import ru.alex.task_managemen_system.model.user.Role;
 import ru.alex.task_managemen_system.model.user.User;
 import ru.alex.task_managemen_system.repository.UserRepository;
@@ -18,7 +18,6 @@ import ru.alex.task_managemen_system.service.update.UpdatePassword;
 import ru.alex.task_managemen_system.util.exception.UserNotFoundException;
 
 import java.time.ZonedDateTime;
-import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 

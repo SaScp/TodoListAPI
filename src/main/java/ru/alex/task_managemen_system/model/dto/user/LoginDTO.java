@@ -1,15 +1,11 @@
-package ru.alex.task_managemen_system.model.dto;
+package ru.alex.task_managemen_system.model.dto.user;
 
-import jakarta.persistence.Column;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
 @Data
-public class UserDTO {
-
-
-    private String name;
+public class LoginDTO {
 
     @Email
     @NotNull(message = "the email must not be null")
@@ -17,6 +13,4 @@ public class UserDTO {
 
     @NotNull(message = "the password must not be null")
     private String password;
-
-
 }

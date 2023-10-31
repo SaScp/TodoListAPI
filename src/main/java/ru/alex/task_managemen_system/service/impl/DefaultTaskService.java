@@ -3,13 +3,12 @@ package ru.alex.task_managemen_system.service.impl;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
-import ru.alex.task_managemen_system.model.dto.RegistrationTaskDTO;
-import ru.alex.task_managemen_system.model.dto.TaskDTO;
+import ru.alex.task_managemen_system.model.dto.task.RegistrationTaskDTO;
+import ru.alex.task_managemen_system.model.dto.task.TaskDTO;
 import ru.alex.task_managemen_system.model.task.Status;
 import ru.alex.task_managemen_system.model.task.Task;
 import ru.alex.task_managemen_system.repository.TaskRepository;
 import ru.alex.task_managemen_system.repository.UserRepository;
-import ru.alex.task_managemen_system.util.exception.TasksNotFoundException;
 import ru.alex.task_managemen_system.util.exception.UserNotFoundException;
 
 import java.time.ZonedDateTime;

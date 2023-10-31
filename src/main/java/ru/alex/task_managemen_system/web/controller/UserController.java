@@ -3,8 +3,7 @@ package ru.alex.task_managemen_system.web.controller;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import ru.alex.task_managemen_system.model.dto.UpdateDTO;
-import ru.alex.task_managemen_system.model.dto.UserDTO;
+import ru.alex.task_managemen_system.model.dto.user.UpdateDTO;
 import ru.alex.task_managemen_system.model.user.User;
 import ru.alex.task_managemen_system.service.impl.DefaultUserService;
 
