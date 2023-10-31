@@ -4,15 +4,18 @@ import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import ru.alex.task_managemen_system.model.dto.RegistrationTaskDTO;
+import ru.alex.task_managemen_system.model.dto.TaskDTO;
 import ru.alex.task_managemen_system.model.task.Status;
 import ru.alex.task_managemen_system.model.task.Task;
 import ru.alex.task_managemen_system.repository.TaskRepository;
 import ru.alex.task_managemen_system.repository.UserRepository;
+import ru.alex.task_managemen_system.util.exception.TasksNotFoundException;
 import ru.alex.task_managemen_system.util.exception.UserNotFoundException;
 
 import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -22,12 +25,12 @@ public class DefaultTaskService {
     private final ModelMapper modelMapper;
     private final UserRepository userRepository;
 
-    public List<Task> findAll(String id) {
-        return taskRepository.findByUser_Uuid(id);
+    public List<TaskDTO> findAll(String id) {
+        return taskRepository.findAll().stream().map(this::convertTaskToTaskDto).collect(Collectors.toList());
     }
 
-    public Task save(RegistrationTaskDTO taskDTO, String id) {
-        Task task = convertTaskDtoToTask(taskDTO);
+    public TaskDTO save(RegistrationTaskDTO taskDTO, String id) {
+        Task task = convertRegistrationTaskDtoToTask(taskDTO);
 
         task.setUuid(UUID.randomUUID().toString());
 
@@ -39,10 +42,13 @@ public class DefaultTaskService {
         task.setStatus(Status.IN_PROGRESS);
 
         taskRepository.save(task);
-        return task;
+        return convertTaskToTaskDto(task);
     }
 
-    private Task convertTaskDtoToTask(RegistrationTaskDTO taskDTO) {
+    private Task convertRegistrationTaskDtoToTask(RegistrationTaskDTO taskDTO) {
         return modelMapper.map(taskDTO, Task.class);
+    }
+    private TaskDTO convertTaskToTaskDto(Task task) {
+        return modelMapper.map(task, TaskDTO.class);
     }
 }

@@ -10,9 +10,9 @@ create table if not exists t_user(
 
 create table if not exists t_task(
     uuid varchar(255) primary key,
-    title varchar(15) not null,
+    title varchar(255) not null,
     description text default null,
-    status varchar(10) not null,
+    status varchar(255) not null,
     create_at timestamp not null,
     expiration_date timestamp not null,
     user_id varchar(255) references t_user(uuid)

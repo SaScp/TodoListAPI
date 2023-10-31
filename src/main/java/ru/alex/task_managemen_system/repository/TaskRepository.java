@@ -6,9 +6,10 @@ import ru.alex.task_managemen_system.model.task.Task;
 import ru.alex.task_managemen_system.model.user.User;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface TaskRepository extends JpaRepository<Task, String> {
 
-    List<Task> findByUser_Uuid(String uuid);
+    Optional<List<Task>> findByUser_Uuid(String uuid);
 }

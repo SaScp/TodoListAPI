@@ -14,9 +14,10 @@ import java.util.Set;
 @Data
 @Entity
 @Table(name = "t_task")
-public class Task {
+public class Task implements Serializable{
 
     @Id
+    @GeneratedValue(strategy = GenerationType.UUID)
     private String uuid;
 
     @Column(name = "title", nullable = false)
@@ -29,7 +30,7 @@ public class Task {
     @Enumerated(value = EnumType.STRING)
     private Status status;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id", referencedColumnName = "uuid")
     private User user;
 

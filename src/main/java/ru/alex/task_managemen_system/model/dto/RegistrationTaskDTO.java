@@ -11,9 +11,8 @@ public class RegistrationTaskDTO {
     @NotNull
     private String title;
 
-   @NotNull
+    @NotNull
     private String description;
 
-    @NotNull
     private ZonedDateTime expirationDate;
 }

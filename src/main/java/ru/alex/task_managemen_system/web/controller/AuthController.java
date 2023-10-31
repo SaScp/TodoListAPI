@@ -19,7 +19,7 @@ import java.util.UUID;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/v1/auth/")
+@RequestMapping("/v1/auth")
 public class AuthController {
 
     private final DefaultAuthService authService;

@@ -34,7 +34,9 @@ public class DefaultUserService {
     public User save(final UserDTO userDTO, BindingResult bindingResult) throws IllegalAccessException {
 
         userRegistrationValidator.validate(userDTO, bindingResult);
-
+        if (bindingResult.hasErrors()) {
+            throw new IllegalStateException();
+        }
         User user = convertregistrationDtoToUser(userDTO);
 
 
