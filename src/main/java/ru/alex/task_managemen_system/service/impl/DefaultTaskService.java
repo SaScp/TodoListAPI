@@ -26,7 +26,7 @@ public class DefaultTaskService {
     private final UserRepository userRepository;
 
     public List<TaskDTO> findAll(String id) {
-        return taskRepository.findAll().stream().map(this::convertTaskToTaskDto).collect(Collectors.toList());
+        return taskRepository.findByUser_Uuid(id).orElseThrow(UserNotFoundException::new).stream().map(this::convertTaskToTaskDto).collect(Collectors.toList());
     }
 
     public TaskDTO save(RegistrationTaskDTO taskDTO, String id) {
@@ -51,4 +51,5 @@ public class DefaultTaskService {
     private TaskDTO convertTaskToTaskDto(Task task) {
         return modelMapper.map(task, TaskDTO.class);
     }
+
 }
