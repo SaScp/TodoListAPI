@@ -7,7 +7,6 @@ import org.springframework.stereotype.Service;
 import ru.alex.task_managemen_system.model.dto.LoginDTO;
 import ru.alex.task_managemen_system.model.response.JwtResponse;
 import ru.alex.task_managemen_system.model.user.User;
-import ru.alex.task_managemen_system.security.auth.AuthProvider;
 import ru.alex.task_managemen_system.service.AuthService;
 
 @Service

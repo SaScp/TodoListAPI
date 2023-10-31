@@ -24,7 +24,7 @@ public class UserController {
     }
 
     @PatchMapping("/{id}/update")
-    public ResponseEntity<User> update(@PathVariable("id") String id, UpdateDTO updateDTO) {
+    public ResponseEntity<User> update(@PathVariable("id") String id, @RequestBody UpdateDTO updateDTO) {
         return ResponseEntity
                 .ok()
                 .body(userService.update(updateDTO, id));

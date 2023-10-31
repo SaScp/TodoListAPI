@@ -49,13 +49,13 @@ public class DefaultUserService {
         return user;
     }
 
-    public User update(UpdateDTO updateDTO, String uuid) {
+    public User update(final UpdateDTO updateDTO, String uuid) {
         List<UpdateComponent> updateComponents = List.of(
                 new UpdateName(),
                 new UpdateEmail(),
                 new UpdatePassword());
 
-        User user = userRepository.getReferenceById(uuid);
+        User user = userRepository.findById(uuid).orElseThrow(UserNotFoundException::new);
         for (var i : updateComponents) {
             i.execute(updateDTO, user);
         }

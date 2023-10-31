@@ -13,9 +13,9 @@ import ru.alex.task_managemen_system.util.exception.PasswordEncoderException;
 
 @Component
 @RequiredArgsConstructor
-public class AuthProvider implements AuthenticationProvider {
+public class DefaultAuthenticationProvider implements AuthenticationProvider {
 
-    private final UserDetailsServiceImpl userDetailsService;
+    private final DefaultUserDetailsService userDetailsService;
     private final BCryptPasswordEncoder passwordEncoder;
 
     @Override

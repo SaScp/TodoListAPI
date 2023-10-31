@@ -6,18 +6,18 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import ru.alex.task_managemen_system.security.auth.AuthProvider;
-import ru.alex.task_managemen_system.security.auth.UserDetailsServiceImpl;
+import ru.alex.task_managemen_system.security.auth.DefaultAuthenticationProvider;
+import ru.alex.task_managemen_system.security.auth.DefaultUserDetailsService;
 
 @Configuration
 @RequiredArgsConstructor
 public class ProviderConfiguration {
 
-    private final UserDetailsServiceImpl userDetailsService;
+    private final DefaultUserDetailsService userDetailsService;
     private final BCryptPasswordEncoder passwordEncoder;
     @Bean
-    public AuthProvider authProvider() {
-        return new AuthProvider(userDetailsService, passwordEncoder);
+    public DefaultAuthenticationProvider authProvider() {
+        return new DefaultAuthenticationProvider(userDetailsService, passwordEncoder);
     }
 
     @Bean

@@ -14,8 +14,6 @@ import java.time.ZonedDateTime;
 @RestControllerAdvice
 public class ControllerAdvice {
 
-
-
     @ExceptionHandler({AccessDeniedException.class})
     private ResponseEntity<ErrorResponse> exHandler(AccessDeniedException exception) {
         ErrorResponse errorResponse =

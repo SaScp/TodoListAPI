@@ -11,18 +11,14 @@ import org.springframework.stereotype.Service;
 import ru.alex.task_managemen_system.model.response.JwtResponse;
 import ru.alex.task_managemen_system.model.user.Role;
 import ru.alex.task_managemen_system.model.user.User;
-import ru.alex.task_managemen_system.security.auth.UserDetailsImpl;
-import ru.alex.task_managemen_system.security.auth.UserDetailsServiceImpl;
+import ru.alex.task_managemen_system.security.auth.DefaultUserDetails;
+import ru.alex.task_managemen_system.security.auth.DefaultUserDetailsService;
 import ru.alex.task_managemen_system.service.JwtService;
 import ru.alex.task_managemen_system.util.exception.AccessDeniedException;
 
 import java.time.Instant;
 import java.time.ZonedDateTime;
 import java.util.Date;
-import java.util.List;
-import java.util.Set;
-import java.util.UUID;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -30,7 +26,7 @@ public class DefaultJwtService implements JwtService {
 
     private final DefaultUserService userService;
 
-    private final UserDetailsServiceImpl userDetailsService;
+    private final DefaultUserDetailsService userDetailsService;
 
     @Value("${jwt.secret.access}")
     private String accessSecret;
@@ -115,7 +111,7 @@ public class DefaultJwtService implements JwtService {
     public Authentication getAuthentication(String token) {
         String email = getUsername(token);
 
-        UserDetailsImpl userDetails = (UserDetailsImpl) userDetailsService.loadUserByUsername(email);
+        DefaultUserDetails userDetails = (DefaultUserDetails) userDetailsService.loadUserByUsername(email);
 
         return new UsernamePasswordAuthenticationToken(userDetails.getUsername(), "", userDetails.getAuthorities());
     }

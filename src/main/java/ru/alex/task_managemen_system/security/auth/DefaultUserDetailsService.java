@@ -11,11 +11,10 @@ import ru.alex.task_managemen_system.repository.UserRepository;
 
 import java.util.Collections;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
-public class UserDetailsServiceImpl implements UserDetailsService {
+public class DefaultUserDetailsService implements UserDetailsService {
 
     private final UserRepository userRepository;
 
@@ -28,7 +27,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
             throw new UsernameNotFoundException("User not found");
         }
         User user = optionalUser.get();
-        return new UserDetailsImpl(
+        return new DefaultUserDetails(
                 user.getEmail(),
                 user.getPassword(),
                 Collections.singletonList(new SimpleGrantedAuthority(user.getRoles().name()))

@@ -2,17 +2,15 @@ package ru.alex.task_managemen_system.security.auth;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Data
 @AllArgsConstructor
-public class UserDetailsImpl implements UserDetails {
+public class DefaultUserDetails implements UserDetails {
 
     private String email;
 
