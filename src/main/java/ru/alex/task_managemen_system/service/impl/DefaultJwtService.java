@@ -1,7 +1,6 @@
 package ru.alex.task_managemen_system.service.impl;
 
 import com.auth0.jwt.JWT;
-import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import lombok.RequiredArgsConstructor;
@@ -12,25 +11,22 @@ import org.springframework.stereotype.Service;
 import ru.alex.task_managemen_system.model.response.JwtResponse;
 import ru.alex.task_managemen_system.model.user.Role;
 import ru.alex.task_managemen_system.model.user.User;
-import ru.alex.task_managemen_system.security.auth.UserDetailsImpl;
-import ru.alex.task_managemen_system.security.auth.UserDetailsServiceImpl;
+import ru.alex.task_managemen_system.security.auth.DefaultUserDetails;
+import ru.alex.task_managemen_system.security.auth.DefaultUserDetailsService;
 import ru.alex.task_managemen_system.service.JwtService;
 import ru.alex.task_managemen_system.util.exception.AccessDeniedException;
 
 import java.time.Instant;
 import java.time.ZonedDateTime;
 import java.util.Date;
-import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
 
-@Service("defaultJwtServiceBean")
+@Service
 @RequiredArgsConstructor
 public class DefaultJwtService implements JwtService {
 
     private final DefaultUserService userService;
 
-    private final UserDetailsServiceImpl userDetailsService;
+    private final DefaultUserDetailsService userDetailsService;
 
     @Value("${jwt.secret.access}")
     private String accessSecret;
@@ -38,17 +34,17 @@ public class DefaultJwtService implements JwtService {
     @Value("${jwt.secret.refresh}")
     private String refreshSecret;
 
-    private static final  ZonedDateTime now = ZonedDateTime.now();
+    private static final ZonedDateTime now = ZonedDateTime.now();
 
     public String createAccessToken(String uuid,
                                     String email,
-                                    Set<Role> roles) {
+                                    Role role) {
 
         return JWT.create()
                 .withSubject("user")
                 .withClaim("id", uuid)
                 .withClaim("email", email).
-                withClaim("roles", getRoles(roles))
+                withClaim("roles", getRole(role))
                 .withIssuedAt(Instant.from(now))
                 .withIssuer("Server")
                 .withExpiresAt(Instant.from(now.plusMinutes(90)))
@@ -57,7 +53,7 @@ public class DefaultJwtService implements JwtService {
 
 
     public String createRefreshToken(String uuid,
-                                    String email) {
+                                     String email) {
 
         return JWT.create()
                 .withSubject("user")
@@ -73,7 +69,7 @@ public class DefaultJwtService implements JwtService {
         JwtResponse jwtResponse = new JwtResponse();
 
         if (!validatorRefreshToken(refreshToken)) {
-            throw new AccessDeniedException();
+            throw new AccessDeniedException("refresh token a is invalid");
         }
 
         String id = getUUID(refreshToken);
@@ -103,6 +99,7 @@ public class DefaultJwtService implements JwtService {
                 .build()
                 .verify(token);
     }
+
     public String getUUID(String token) {
         return getVerifier(token, refreshSecret).getClaim("id").asString();
     }
@@ -114,14 +111,12 @@ public class DefaultJwtService implements JwtService {
     public Authentication getAuthentication(String token) {
         String email = getUsername(token);
 
-        UserDetailsImpl userDetails = (UserDetailsImpl) userDetailsService.loadUserByUsername(email);
+        DefaultUserDetails userDetails = (DefaultUserDetails) userDetailsService.loadUserByUsername(email);
 
         return new UsernamePasswordAuthenticationToken(userDetails.getUsername(), "", userDetails.getAuthorities());
     }
 
-    private List<String> getRoles(Set<Role> roles) {
-        return roles.stream()
-                .map(Enum::name)
-                .collect(Collectors.toList());
+    private String getRole(Role role) {
+        return role.name();
     }
 }

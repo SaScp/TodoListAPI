@@ -4,9 +4,10 @@ import org.springframework.security.core.Authentication;
 import ru.alex.task_managemen_system.model.user.Role;
 
 import java.util.Set;
+import java.util.UUID;
 
 public interface JwtService {
-    public String createAccessToken(String uuid, String email, Set<Role> roles);
+    public String createAccessToken(String uuid, String email, Role role);
 
     public String createRefreshToken(String uuid, String email);
 

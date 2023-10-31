@@ -6,6 +6,7 @@ import org.hibernate.annotations.CollectionType;
 import ru.alex.task_managemen_system.model.user.Role;
 import ru.alex.task_managemen_system.model.user.User;
 
+import java.io.Serializable;
 import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.Set;
@@ -13,9 +14,10 @@ import java.util.Set;
 @Data
 @Entity
 @Table(name = "t_task")
-public class Task {
+public class Task implements Serializable{
 
     @Id
+    @GeneratedValue(strategy = GenerationType.UUID)
     private String uuid;
 
     @Column(name = "title", nullable = false)
@@ -26,9 +28,9 @@ public class Task {
 
     @Column(name = "status", nullable = false)
     @Enumerated(value = EnumType.STRING)
-    private Set<Status> status;
+    private Status status;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id", referencedColumnName = "uuid")
     private User user;
 

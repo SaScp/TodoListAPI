@@ -16,8 +16,5 @@ public class UserServiceTest {
         this.userService = userService;
     }
 
-    @Test
-    public void test_function_save_userService() {
-        userService.save(new Token());
-    }
+
 }

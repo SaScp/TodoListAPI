@@ -8,34 +8,29 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import ru.alex.task_managemen_system.model.user.User;
 import ru.alex.task_managemen_system.repository.UserRepository;
-import ru.alex.task_managemen_system.security.auth.UserDetailsImpl;
 
+import java.util.Collections;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
-public class UserDetailsServiceImpl implements UserDetailsService {
+public class DefaultUserDetailsService implements UserDetailsService {
 
     private final UserRepository userRepository;
 
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        Optional<User> optionalUser = userRepository.getUserByEmail(email);
 
+        Optional<User> optionalUser = userRepository.findByEmail(email);
         if (optionalUser.isEmpty()) {
             throw new UsernameNotFoundException("User not found");
         }
         User user = optionalUser.get();
-        return new UserDetailsImpl(
+        return new DefaultUserDetails(
                 user.getEmail(),
                 user.getPassword(),
-                user.getRoles()
-                .stream()
-                .map(Enum::name)
-                .map(SimpleGrantedAuthority::new)
-                .collect(Collectors.toSet())
+                Collections.singletonList(new SimpleGrantedAuthority(user.getRoles().name()))
         );
     }
 }

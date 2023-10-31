@@ -28,8 +28,7 @@ public class SecurityConfiguration {
 
         http.csrf(AbstractHttpConfigurer::disable);
 
-        http.formLogin(formLoginConfigurer ->
-                formLoginConfigurer.loginPage("/v1/auth/login"));
+        http.httpBasic(AbstractHttpConfigurer::disable);
 
         http.exceptionHandling(exceptionHandlingConfigurer ->
                 exceptionHandlingConfigurer.authenticationEntryPoint((request, response, authException) -> {
@@ -52,7 +51,7 @@ public class SecurityConfiguration {
                         .authenticated());
         http.anonymous(AbstractHttpConfigurer::disable);
 
-        http.addFilterAfter(jwtFilter, UsernamePasswordAuthenticationFilter.class);
+        http.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }
