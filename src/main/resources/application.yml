@@ -9,6 +9,17 @@ spring:
       hibernate:
         show_sql: true
         format_sql: true
+  mail:
+    port: 587
+    host: smtp.gmail.com
+    username: testemailforprog@gmail.com
+    password: kmwaalytexgdocfr
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
 jwt:
   secret:
     access: pmAwd5izmqEULionmIAPrA==
