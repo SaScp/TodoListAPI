@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.stereotype.Service;
+
 import ru.alex.task_managemen_system.model.dto.user.LoginDTO;
 import ru.alex.task_managemen_system.model.response.JwtResponse;
 import ru.alex.task_managemen_system.model.user.User;
@@ -17,21 +18,19 @@ public class DefaultAuthService implements AuthService {
     private final DefaultUserService userService;
     private final DefaultJwtService jwtService;
 
+
     public JwtResponse login(final LoginDTO loginRequest) {
         JwtResponse jwtResponse = new JwtResponse();
-        authProvider.authenticate(
-                new UsernamePasswordAuthenticationToken(
-                        loginRequest.getEmail(), loginRequest.getPassword())
-        );
+
+        authProvider.authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword()));
+
         User user = userService.getUserByEmail(loginRequest.getEmail());
+
         jwtResponse.setUuid(user.getUuid());
         jwtResponse.setUsername(user.getEmail());
-        jwtResponse.setAccessToken(jwtService.createAccessToken(
-                user.getUuid(), user.getEmail(), user.getRoles())
-        );
-        jwtResponse.setRefreshToken(jwtService.createRefreshToken(
-                user.getUuid(), user.getEmail())
-        );
+        jwtResponse.setAccessToken(jwtService.createAccessToken(user.getUuid(), user.getEmail(), user.getRoles()));
+        jwtResponse.setRefreshToken(jwtService.createRefreshToken(user.getUuid(), user.getEmail()));
+
         return jwtResponse;
     }
 

@@ -25,7 +25,7 @@ public class DefaultTaskService {
     private final UserRepository userRepository;
 
     public List<TaskDTO> findAll(String id) {
-        return taskRepository.findByUser_Uuid(id).orElseThrow(UserNotFoundException::new).stream().map(this::convertTaskToTaskDto).collect(Collectors.toList());
+        return taskRepository.findAllByUser_Uuid(id).orElseThrow(UserNotFoundException::new).stream().map(this::convertTaskToTaskDto).collect(Collectors.toList());
     }
 
     public TaskDTO save(RegistrationTaskDTO taskDTO, String id) {
