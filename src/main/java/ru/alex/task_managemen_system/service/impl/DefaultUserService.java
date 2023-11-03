@@ -33,8 +33,6 @@ public class DefaultUserService {
     private final PasswordEncoder passwordEncoder;
 
     public User save(final UserDTO userDTO) {
-
-
         User user = convertregistrationDtoToUser(userDTO);
 
 

@@ -33,7 +33,6 @@ public class User implements Serializable {
 
     @Column(name = "password")
     @NotNull(message = "the password must not be null")
-    @Size(min = 0, max = 32, message = "The password must be more than 8 characters")
     private String password;
 
 
