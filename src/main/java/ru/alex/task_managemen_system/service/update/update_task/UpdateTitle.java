@@ -11,7 +11,7 @@ public class UpdateTitle implements UpdateComponent {
 
     @Override
     public void execute(TaskDTO taskDTO, Task task) {
-        if (taskDTO.getTitle() != null) {
+        if (Optional.ofNullable(taskDTO.getTitle()).isPresent()) {
             task.setTitle(taskDTO.getTitle());
         }
     }

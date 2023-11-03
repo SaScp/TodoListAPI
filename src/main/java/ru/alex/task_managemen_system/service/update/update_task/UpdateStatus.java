@@ -11,7 +11,7 @@ public class UpdateStatus implements UpdateComponent {
 
     @Override
     public void execute(TaskDTO taskDTO, Task task) {
-        if (taskDTO.getDescription() != null) {
+        if (Optional.ofNullable(taskDTO.getStatus()).isPresent()) {
             task.setStatus(taskDTO.getStatus());
         }
     }

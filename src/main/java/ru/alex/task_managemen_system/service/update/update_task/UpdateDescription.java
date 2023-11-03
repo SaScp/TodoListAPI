@@ -11,7 +11,7 @@ public class UpdateDescription implements UpdateComponent {
 
     @Override
     public void execute(TaskDTO taskDTO, Task task) {
-        if (taskDTO.getDescription() != null) {
+        if (Optional.ofNullable(taskDTO.getDescription()).isPresent()) {
             task.setDescription(taskDTO.getDescription());
         }
     }

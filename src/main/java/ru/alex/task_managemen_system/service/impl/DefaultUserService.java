@@ -29,7 +29,6 @@ public class DefaultUserService {
 
     private final UserRepository userRepository;
     private final ModelMapper modelMapper;
-
     private final PasswordEncoder passwordEncoder;
 
     public User save(final UserDTO userDTO) {

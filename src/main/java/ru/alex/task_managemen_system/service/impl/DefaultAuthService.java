@@ -26,6 +26,7 @@ public class DefaultAuthService implements AuthService {
     private final DefaultUserService userService;
     private final DefaultJwtService jwtService;
     private final UserRegistrationValidator userRegistrationValidator;
+    private final DefaultMailService mailService;
 
     public JwtResponse login(final LoginDTO loginRequest) {
         JwtResponse jwtResponse = new JwtResponse();
@@ -49,6 +50,9 @@ public class DefaultAuthService implements AuthService {
             throw new RegistrationUserException(Objects.requireNonNull(bindingResult.getFieldError()).getDefaultMessage());
         }
         User user = userService.save(userDTO);
+
+        mailService.send(userDTO.getEmail(), String.format("Hello, %s", userDTO.getEmail()),
+                "Hello in my task app.\n This test email I'm sending email to check How it`s working");
 
         return user;
     }
