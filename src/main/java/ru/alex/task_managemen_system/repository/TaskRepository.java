@@ -12,9 +12,10 @@ public interface TaskRepository extends JpaRepository<Task, String> {
 
     Optional<List<Task>> findAllByUser_Uuid(String uuid);
 
-    Optional<Task> findByUser_Uuid(String uuid);
+    Optional<Task> findTaskByUuid(String uuid);
 
-    Optional<Task> deleteTaskByUuid(String uuid);
+    Optional<Task> deleteTaskByUuidAndUser_Uuid(String taskId, String userId);
+
 
 
 }

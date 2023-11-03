@@ -5,20 +5,22 @@ import org.modelmapper.ModelMapper;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.BindingResult;
+import ru.alex.task_managemen_system.service.update.update_user.UpdateComponent;
+import ru.alex.task_managemen_system.service.update.update_user.UpdateEmail;
+import ru.alex.task_managemen_system.service.update.update_user.UpdateName;
+import ru.alex.task_managemen_system.service.update.update_user.UpdatePassword;
+import ru.alex.task_managemen_system.util.exception.RegistrationUserException;
 import ru.alex.task_managemen_system.util.validator.UserRegistrationValidator;
 import ru.alex.task_managemen_system.model.dto.user.UserDTO;
 import ru.alex.task_managemen_system.model.dto.user.UpdateDTO;
 import ru.alex.task_managemen_system.model.user.Role;
 import ru.alex.task_managemen_system.model.user.User;
 import ru.alex.task_managemen_system.repository.UserRepository;
-import ru.alex.task_managemen_system.service.update.UpdateComponent;
-import ru.alex.task_managemen_system.service.update.UpdateEmail;
-import ru.alex.task_managemen_system.service.update.UpdateName;
-import ru.alex.task_managemen_system.service.update.UpdatePassword;
 import ru.alex.task_managemen_system.util.exception.UserNotFoundException;
 
 import java.time.ZonedDateTime;
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 
 @Service
@@ -27,15 +29,12 @@ public class DefaultUserService {
 
     private final UserRepository userRepository;
     private final ModelMapper modelMapper;
-    private final UserRegistrationValidator userRegistrationValidator;
+
     private final PasswordEncoder passwordEncoder;
 
-    public User save(final UserDTO userDTO, BindingResult bindingResult) throws IllegalAccessException {
+    public User save(final UserDTO userDTO) {
 
-        userRegistrationValidator.validate(userDTO, bindingResult);
-        if (bindingResult.hasErrors()) {
-            throw new IllegalStateException();
-        }
+
         User user = convertregistrationDtoToUser(userDTO);
 
 

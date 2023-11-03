@@ -1,4 +1,4 @@
-package ru.alex.task_managemen_system.service.update;
+package ru.alex.task_managemen_system.service.update.update_user;
 
 import ru.alex.task_managemen_system.model.dto.user.UpdateDTO;
 import ru.alex.task_managemen_system.model.user.User;

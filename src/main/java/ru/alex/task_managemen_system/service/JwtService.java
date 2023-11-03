@@ -1,23 +1,25 @@
 package ru.alex.task_managemen_system.service;
 
 import org.springframework.security.core.Authentication;
+import ru.alex.task_managemen_system.model.response.JwtResponse;
 import ru.alex.task_managemen_system.model.user.Role;
 
-import java.util.Set;
-import java.util.UUID;
-
 public interface JwtService {
-    public String createAccessToken(String uuid, String email, Role role);
+    String createAccessToken(String uuid, String email, Role role);
 
-    public String createRefreshToken(String uuid, String email);
+    String createRefreshToken(String uuid, String email);
 
-    public boolean validatorAccessToken(String token);
+    boolean validatorAccessToken(String token);
 
-    public String getUsername(String token);
+    String getUsername(String token);
 
-    public boolean validatorRefreshToken(String token);
+    boolean validatorRefreshToken(String token);
 
-    public String getUUID(String token);
+    String getRefreshUUID(String token);
 
-    public Authentication getAuthentication(String token);
+    JwtResponse refreshUserTokens(String refreshToken);
+
+    String getAccessUUID(String token);
+
+    Authentication getAuthentication(String token);
 }

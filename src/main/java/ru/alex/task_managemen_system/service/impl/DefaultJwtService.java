@@ -72,7 +72,7 @@ public class DefaultJwtService implements JwtService {
             throw new AccessDeniedException("refresh token a is invalid");
         }
 
-        String id = getUUID(refreshToken);
+        String id = getRefreshUUID(refreshToken);
         User user = userService.getUserByUUID(id);
 
         jwtResponse.setUuid(id);
@@ -100,8 +100,11 @@ public class DefaultJwtService implements JwtService {
                 .verify(token);
     }
 
-    public String getUUID(String token) {
+    public String getRefreshUUID(String token) {
         return getVerifier(token, refreshSecret).getClaim("id").asString();
+    }
+    public String getAccessUUID(String token) {
+        return getVerifier(token, accessSecret).getClaim("id").asString();
     }
 
     public String getUsername(String token) {

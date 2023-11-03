@@ -23,9 +23,6 @@ public class AuthController {
 
     private final DefaultAuthService authService;
 
-    private final DefaultUserService userService;
-
-    private final UserRepository userRepository;
     @PostMapping("/login")
     public ResponseEntity<JwtResponse> login(@RequestBody @Valid final LoginDTO loginDTO, BindingResult bindingResult) {
 
@@ -44,13 +41,8 @@ public class AuthController {
 
     @PostMapping("/registration")
     public ResponseEntity<User> registration(@RequestBody @Valid UserDTO registrationDTO, BindingResult bindingResult) throws IllegalAccessException {
-       User user = userService.save(registrationDTO, bindingResult);
+       User user = authService.registration(registrationDTO, bindingResult);
        return ResponseEntity.ok().body(user);
-    }
-
-    @GetMapping("/")
-    public List<User> getAll() {
-        return userRepository.findAll();
     }
 
 }
