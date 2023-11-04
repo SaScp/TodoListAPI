@@ -8,6 +8,7 @@ import org.springframework.core.io.FileSystemResource;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ResourceUtils;
 import ru.alex.task_managemen_system.service.MailService;
@@ -19,6 +20,7 @@ import java.io.FileNotFoundException;
 public class DefaultMailService implements MailService {
 
     private final JavaMailSender mailSender;
+
     public void send(String toAddress, String subject, String message) {
         SimpleMailMessage simpleMailMessage = new SimpleMailMessage();
         simpleMailMessage.setText(message);

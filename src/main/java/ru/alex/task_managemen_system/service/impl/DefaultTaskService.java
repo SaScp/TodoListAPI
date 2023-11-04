@@ -32,8 +32,7 @@ public class DefaultTaskService {
     private final DefaultJwtService jwtService;
 
     @Async
-    public CompletableFuture<List<TaskDTO>> findAll(String token) {
-        String id = getIdFromToken(token);
+    public CompletableFuture<List<TaskDTO>> findAll(String id) {
         List<TaskDTO> taskDTOs = taskRepository
                 .findAllByUser_Uuid(id)
                 .orElseThrow(UserNotFoundException::new)
@@ -44,8 +43,7 @@ public class DefaultTaskService {
 
     @Async
     public CompletableFuture<TaskDTO> save(RegistrationTaskDTO taskDTO,
-                                           String token) {
-        String id = getIdFromToken(token);
+                                           String userId) {
 
         Task task = convertRegistrationTaskDtoToTask(taskDTO);
 
@@ -54,7 +52,7 @@ public class DefaultTaskService {
         task.setCreateAt(ZonedDateTime.now());
         task.setExpirationDate(ZonedDateTime.now().plusDays(10));
 
-        task.setUser(userRepository.findById(id).orElseThrow(UserNotFoundException::new));
+        task.setUser(userRepository.findById(userId).orElseThrow(UserNotFoundException::new));
 
         task.setStatus(Status.IN_PROGRESS);
 

@@ -5,6 +5,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.alex.task_managemen_system.model.dto.user.UpdateDTO;
 import ru.alex.task_managemen_system.model.user.User;
+import ru.alex.task_managemen_system.service.impl.DefaultJwtService;
 import ru.alex.task_managemen_system.service.impl.DefaultUserService;
 
 @RestController
@@ -13,7 +14,7 @@ import ru.alex.task_managemen_system.service.impl.DefaultUserService;
 public class UserController {
 
     private final DefaultUserService userService;
-
+    private final DefaultJwtService jwtService;
     @GetMapping("/{id}")
     public ResponseEntity<User> getUser(@PathVariable("id") String id) {
 
@@ -22,7 +23,7 @@ public class UserController {
                 .body(userService.getUserByUUID(id));
     }
 
-    @PatchMapping("/{id}/update")
+    @PatchMapping("/update/{id}")
     public ResponseEntity<User> update(@PathVariable("id") String id, @RequestBody UpdateDTO updateDTO) {
         return ResponseEntity
                 .ok()

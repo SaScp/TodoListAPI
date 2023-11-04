@@ -30,7 +30,7 @@ public class SecurityConfiguration {
 
         http.httpBasic(AbstractHttpConfigurer::disable);
 
-        http.exceptionHandling(exceptionHandlingConfigurer ->
+      /*  http.exceptionHandling(exceptionHandlingConfigurer ->
                 exceptionHandlingConfigurer.authenticationEntryPoint((request, response, authException) -> {
                     response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
                     response.getWriter().write("NOT_AUTHORIZED");
@@ -39,7 +39,7 @@ public class SecurityConfiguration {
                             response.getWriter().write("FORBIDDEN");
                         }
                 )
-        );
+        );*/
         http.sessionManagement(session ->
                 session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
         );

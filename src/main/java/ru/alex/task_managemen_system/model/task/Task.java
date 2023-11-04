@@ -2,6 +2,8 @@ package ru.alex.task_managemen_system.model.task;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.annotations.CollectionType;
 import ru.alex.task_managemen_system.model.user.Role;
 import ru.alex.task_managemen_system.model.user.User;
@@ -11,10 +13,11 @@ import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.Set;
 
-@Data
+@Getter
+@Setter
 @Entity
 @Table(name = "t_task")
-public class Task implements Serializable{
+public class Task{
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)

@@ -4,13 +4,10 @@ import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.validation.BindingResult;
 import ru.alex.task_managemen_system.service.update.update_user.UpdateComponent;
 import ru.alex.task_managemen_system.service.update.update_user.UpdateEmail;
 import ru.alex.task_managemen_system.service.update.update_user.UpdateName;
 import ru.alex.task_managemen_system.service.update.update_user.UpdatePassword;
-import ru.alex.task_managemen_system.util.exception.RegistrationUserException;
-import ru.alex.task_managemen_system.util.validator.UserRegistrationValidator;
 import ru.alex.task_managemen_system.model.dto.user.UserDTO;
 import ru.alex.task_managemen_system.model.dto.user.UpdateDTO;
 import ru.alex.task_managemen_system.model.user.Role;
@@ -20,7 +17,6 @@ import ru.alex.task_managemen_system.util.exception.UserNotFoundException;
 
 import java.time.ZonedDateTime;
 import java.util.List;
-import java.util.Objects;
 import java.util.UUID;
 
 @Service
@@ -32,7 +28,7 @@ public class DefaultUserService {
     private final PasswordEncoder passwordEncoder;
 
     public User save(final UserDTO userDTO) {
-        User user = convertregistrationDtoToUser(userDTO);
+        User user = convertUserDtoToUser(userDTO);
 
 
         user.setUuid(UUID.randomUUID().toString());
@@ -47,6 +43,7 @@ public class DefaultUserService {
     }
 
     public User update(final UpdateDTO updateDTO, String uuid) {
+
         List<UpdateComponent> updateComponents = List.of(
                 new UpdateName(),
                 new UpdateEmail(),
@@ -68,7 +65,8 @@ public class DefaultUserService {
         return userRepository.findByEmail(email).orElseThrow(UserNotFoundException::new);
     }
 
-    private User convertregistrationDtoToUser(UserDTO registrationDTO) {
+    private User convertUserDtoToUser(UserDTO registrationDTO) {
         return modelMapper.map(registrationDTO, User.class);
     }
+
 }

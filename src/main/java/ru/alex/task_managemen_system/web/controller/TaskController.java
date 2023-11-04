@@ -18,15 +18,15 @@ public class TaskController {
 
     private final DefaultTaskService taskService;
 
-    @GetMapping("/all-task")
-    public ResponseEntity<List<TaskDTO>> findAllTasks(@RequestHeader("Authorization") String token) throws ExecutionException, InterruptedException {
-        return ResponseEntity.ok().body(taskService.findAll(token).get());
+    @GetMapping("/all-task/{id}")
+    public ResponseEntity<List<TaskDTO>> findAllTasks(@PathVariable String id) throws ExecutionException, InterruptedException {
+        return ResponseEntity.ok().body(taskService.findAll(id).get());
     }
 
-    @PostMapping("/add")
+    @PostMapping("/add/{userId}")
     public ResponseEntity<TaskDTO> add(@RequestBody @Valid RegistrationTaskDTO taskDTO,
-                                       @RequestHeader("Authorization") String token) throws ExecutionException, InterruptedException {
-        TaskDTO task = taskService.save(taskDTO, token).get();
+                                       @PathVariable String userId) throws ExecutionException, InterruptedException {
+        TaskDTO task = taskService.save(taskDTO, userId).get();
         return ResponseEntity.ok().body(task);
     }
 
