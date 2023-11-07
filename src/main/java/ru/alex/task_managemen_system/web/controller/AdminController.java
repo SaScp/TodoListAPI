@@ -3,6 +3,7 @@ package ru.alex.task_managemen_system.web.controller;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -19,6 +20,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class AdminController {
 
+  /*  @Qualifier("defaultAdminService")
     private final AdminService adminService;
     @GetMapping("/users")
     public ResponseEntity<List<User>> getAllUser() {
@@ -30,5 +32,5 @@ public class AdminController {
         return ResponseEntity
                 .ok()
                 .body(adminService.isBlockUser(id)? HttpStatus.ACCEPTED: HttpStatus.NOT_FOUND);
-    }
+    }*/ //TODO
 }

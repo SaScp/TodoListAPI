@@ -32,7 +32,7 @@ public class DefaultUserDetails implements UserDetails {
     public boolean isAccountNonLocked() {
         List<String> auth = authorities.stream().map(SimpleGrantedAuthority::getAuthority).toList();
 
-        if (auth.contains("BLOCK")) {
+        if (auth.contains("ROLE_BLOCK")) {
             return false;
         }
         return true;

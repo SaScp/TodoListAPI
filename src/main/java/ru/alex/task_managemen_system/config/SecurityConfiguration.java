@@ -5,7 +5,6 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.annotation.AbstractSecurityBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
@@ -14,9 +13,6 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import ru.alex.task_managemen_system.security.filter.JwtFilter;
-
-import java.nio.file.AccessDeniedException;
-import java.util.Date;
 
 
 @Configuration
@@ -56,8 +52,8 @@ public class SecurityConfiguration {
         return http.build();
     }
 
-    private AuthorizeHttpRequestsConfigurer<HttpSecurity>.AuthorizationManagerRequestMatcherRegistry getAuthHttpRequest(AuthorizeHttpRequestsConfigurer<HttpSecurity>.AuthorizationManagerRequestMatcherRegistry authHttpRequest) {
-        return authHttpRequest.requestMatchers("/v1/auth/**")
+    private void getAuthHttpRequest(AuthorizeHttpRequestsConfigurer<HttpSecurity>.AuthorizationManagerRequestMatcherRegistry authHttpRequest) {
+        authHttpRequest.requestMatchers("/v1/auth/**")
                 .permitAll()
                 .requestMatchers("/v1/admin/**")
                 .hasAnyRole("ADMIN")

@@ -32,13 +32,12 @@ public class DefaultUserService implements UserService{
     private final UserRepository userRepository;
     private final ModelMapper modelMapper;
     private final PasswordEncoder passwordEncoder;
-    private static final Logger logger = LoggerFactory.getLogger(DefaultUserService.class);
 
     public CompletableFuture<User> save(final UserDTO userDTO) {
         User user = convertUserDtoToUser(userDTO);
 
         user.setUuid(UUID.randomUUID().toString());
-        user.setRoles(Role.USER);
+        user.setRoles(Role.ROLE_USER);
 
         user.setCreateAt(ZonedDateTime.now());
         user.setUpdateAt(ZonedDateTime.now());
@@ -66,7 +65,7 @@ public class DefaultUserService implements UserService{
 
         user.setUpdateAt(ZonedDateTime.now());
         userRepository.save(user);
-        logger.info(String.format("User %s is update! time: %t", user.getEmail(), new Date()));
+
         return user;
     }
 

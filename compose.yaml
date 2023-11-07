@@ -2,7 +2,7 @@ services:
   postgres:
     image: 'postgres:latest'
     environment:
-      POSTGRES_DB: taskApp
+      POSTGRES_DB: tasks
       POSTGRES_PASSWORD: Operator332@@
       POSTGRES_USER: postgres
     ports:
