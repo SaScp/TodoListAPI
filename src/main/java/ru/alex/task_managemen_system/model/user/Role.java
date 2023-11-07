@@ -1,6 +1,6 @@
 package ru.alex.task_managemen_system.model.user;
 
 public enum Role {
-    USER, BLOCK, ADMIN
+    USER, BLOCK, ADMIN, DEVELOPER
 
 }
