@@ -2,42 +2,40 @@ package ru.alex.task_managemen_system.service.impl;
 
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.validation.BindingResult;
-import ru.alex.task_managemen_system.util.validator.UserRegistrationValidator;
+import ru.alex.task_managemen_system.service.UserService;
+import ru.alex.task_managemen_system.service.update.update_user.UpdateComponent;
+import ru.alex.task_managemen_system.service.update.update_user.UpdateEmail;
+import ru.alex.task_managemen_system.service.update.update_user.UpdateName;
+import ru.alex.task_managemen_system.service.update.update_user.UpdatePassword;
 import ru.alex.task_managemen_system.model.dto.user.UserDTO;
 import ru.alex.task_managemen_system.model.dto.user.UpdateDTO;
 import ru.alex.task_managemen_system.model.user.Role;
 import ru.alex.task_managemen_system.model.user.User;
 import ru.alex.task_managemen_system.repository.UserRepository;
-import ru.alex.task_managemen_system.service.update.UpdateComponent;
-import ru.alex.task_managemen_system.service.update.UpdateEmail;
-import ru.alex.task_managemen_system.service.update.UpdateName;
-import ru.alex.task_managemen_system.service.update.UpdatePassword;
 import ru.alex.task_managemen_system.util.exception.UserNotFoundException;
 
 import java.time.ZonedDateTime;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
+import java.util.concurrent.CompletableFuture;
 
 @Service
 @RequiredArgsConstructor
-public class DefaultUserService {
+public class DefaultUserService implements UserService{
 
     private final UserRepository userRepository;
     private final ModelMapper modelMapper;
-    private final UserRegistrationValidator userRegistrationValidator;
     private final PasswordEncoder passwordEncoder;
+    private static final Logger logger = LoggerFactory.getLogger(DefaultUserService.class);
 
-    public User save(final UserDTO userDTO, BindingResult bindingResult) throws IllegalAccessException {
-
-        userRegistrationValidator.validate(userDTO, bindingResult);
-        if (bindingResult.hasErrors()) {
-            throw new IllegalStateException();
-        }
-        User user = convertregistrationDtoToUser(userDTO);
-
+    public CompletableFuture<User> save(final UserDTO userDTO) {
+        User user = convertUserDtoToUser(userDTO);
 
         user.setUuid(UUID.randomUUID().toString());
         user.setRoles(Role.USER);
@@ -47,10 +45,15 @@ public class DefaultUserService {
 
         user.setPassword(passwordEncoder.encode(userDTO.getPassword()));
         userRepository.save(user);
-        return user;
+
+
+
+        return CompletableFuture.completedFuture(user);
     }
 
+
     public User update(final UpdateDTO updateDTO, String uuid) {
+
         List<UpdateComponent> updateComponents = List.of(
                 new UpdateName(),
                 new UpdateEmail(),
@@ -60,7 +63,10 @@ public class DefaultUserService {
         for (var i : updateComponents) {
             i.execute(updateDTO, user);
         }
+
+        user.setUpdateAt(ZonedDateTime.now());
         userRepository.save(user);
+        logger.info(String.format("User %s is update! time: %t", user.getEmail(), new Date()));
         return user;
     }
 
@@ -72,7 +78,9 @@ public class DefaultUserService {
         return userRepository.findByEmail(email).orElseThrow(UserNotFoundException::new);
     }
 
-    private User convertregistrationDtoToUser(UserDTO registrationDTO) {
+
+
+    private User convertUserDtoToUser(UserDTO registrationDTO) {
         return modelMapper.map(registrationDTO, User.class);
     }
 }

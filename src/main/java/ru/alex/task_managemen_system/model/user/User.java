@@ -1,9 +1,13 @@
 package ru.alex.task_managemen_system.model.user;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import ru.alex.task_managemen_system.model.task.Task;
 
 import java.io.Serializable;
@@ -12,7 +16,8 @@ import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
-@Data
+@Getter
+@Setter
 @Entity
 @Table(name = "t_user")
 public class User implements Serializable {
@@ -39,7 +44,8 @@ public class User implements Serializable {
     @Enumerated(value = EnumType.STRING)
     private Role roles;
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+    @JsonIgnore
     private List<Task> tasks;
 
     @Column(name = "create_at", nullable = false)

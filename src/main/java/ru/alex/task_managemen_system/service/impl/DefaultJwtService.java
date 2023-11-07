@@ -1,9 +1,11 @@
 package ru.alex.task_managemen_system.service.impl;
 
+
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -14,6 +16,7 @@ import ru.alex.task_managemen_system.model.user.User;
 import ru.alex.task_managemen_system.security.auth.DefaultUserDetails;
 import ru.alex.task_managemen_system.security.auth.DefaultUserDetailsService;
 import ru.alex.task_managemen_system.service.JwtService;
+import ru.alex.task_managemen_system.service.UserService;
 import ru.alex.task_managemen_system.util.exception.AccessDeniedException;
 
 import java.time.Instant;
@@ -24,7 +27,8 @@ import java.util.Date;
 @RequiredArgsConstructor
 public class DefaultJwtService implements JwtService {
 
-    private final DefaultUserService userService;
+    @Qualifier("defaultUserService")
+    private final UserService userService;
 
     private final DefaultUserDetailsService userDetailsService;
 
@@ -72,7 +76,7 @@ public class DefaultJwtService implements JwtService {
             throw new AccessDeniedException("refresh token a is invalid");
         }
 
-        String id = getUUID(refreshToken);
+        String id = getRefreshUUID(refreshToken);
         User user = userService.getUserByUUID(id);
 
         jwtResponse.setUuid(id);
@@ -100,8 +104,11 @@ public class DefaultJwtService implements JwtService {
                 .verify(token);
     }
 
-    public String getUUID(String token) {
+    public String getRefreshUUID(String token) {
         return getVerifier(token, refreshSecret).getClaim("id").asString();
+    }
+    public String getAccessUUID(String token) {
+        return getVerifier(token, accessSecret).getClaim("id").asString();
     }
 
     public String getUsername(String token) {

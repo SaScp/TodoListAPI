@@ -12,19 +12,15 @@ spring:
   mail:
     port: 587
     host: smtp.gmail.com
-    username: testemailforprog@gmail.com
-    password: kmwaalytexgdocfr
+    username: <Your email>
+    password: <Your password>
     properties:
       mail:
         smtp:
           auth: true
           starttls:
             enable: true
-
 jwt:
   secret:
     access: pmAwd5izmqEULionmIAPrA==
     refresh: lKwppuqF4a+agwP0TIUo
-logging:
-  level:
-    org.apache.catalina.core.ContainerBase: off
