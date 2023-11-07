@@ -2,10 +2,12 @@ package ru.alex.task_managemen_system.web.controller;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.alex.task_managemen_system.model.dto.task.RegistrationTaskDTO;
 import ru.alex.task_managemen_system.model.dto.task.TaskDTO;
+import ru.alex.task_managemen_system.service.TaskService;
 import ru.alex.task_managemen_system.service.impl.DefaultTaskService;
 
 import java.util.List;
@@ -16,22 +18,24 @@ import java.util.concurrent.ExecutionException;
 @RequestMapping("/v1/task/")
 public class TaskController {
 
-    private final DefaultTaskService taskService;
+    @Qualifier("defaultTaskService")
+    private final TaskService taskService;
 
-    @GetMapping("/all-task/{id}")
-    public ResponseEntity<List<TaskDTO>> findAllTasks(@PathVariable String id) throws ExecutionException, InterruptedException {
+    @GetMapping("/all-task/{userId}")
+    public ResponseEntity<List<TaskDTO>> findAllTasks(@PathVariable("userId") String id) throws ExecutionException, InterruptedException {
         return ResponseEntity.ok().body(taskService.findAll(id).get());
     }
 
     @PostMapping("/add/{userId}")
     public ResponseEntity<TaskDTO> add(@RequestBody @Valid RegistrationTaskDTO taskDTO,
-                                       @PathVariable String userId) throws ExecutionException, InterruptedException {
+                                       @PathVariable("userId") String userId) throws ExecutionException, InterruptedException {
         TaskDTO task = taskService.save(taskDTO, userId).get();
         return ResponseEntity.ok().body(task);
     }
 
     @PatchMapping("/update/{id}")
-    public ResponseEntity<TaskDTO> update(@PathVariable("id") String id, @RequestBody @Valid TaskDTO taskDTO) throws ExecutionException, InterruptedException {
+    public ResponseEntity<TaskDTO> update(@PathVariable("id") String id,
+                                          @RequestBody @Valid TaskDTO taskDTO) throws ExecutionException, InterruptedException {
         return ResponseEntity.ok().body(taskService.update(id, taskDTO).get());
     }
     @DeleteMapping("/delete/{taskId}")

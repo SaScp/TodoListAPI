@@ -21,4 +21,4 @@ create table if not exists t_img_task(
     uuid varchar(255) primary key,
     img varchar(255) not null,
     task_id varchar(255) references t_task(uuid) on delete cascade unique
-    )
+    );

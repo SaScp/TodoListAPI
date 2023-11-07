@@ -50,4 +50,12 @@ public class ControllerAdvice {
 
         return ResponseEntity.badRequest().body(errorResponse);
     }
+
+    @ExceptionHandler({AccountIsBlockException.class})
+    private ResponseEntity<ErrorResponse> exHandler(AccountIsBlockException exception) {
+        ErrorResponse errorResponse =
+                new ErrorResponse("Account is block", ZonedDateTime.now(), 401);
+
+        return ResponseEntity.badRequest().body(errorResponse);
+    }
 }

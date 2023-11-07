@@ -10,6 +10,7 @@ import ru.alex.task_managemen_system.model.task.Status;
 import ru.alex.task_managemen_system.model.task.Task;
 import ru.alex.task_managemen_system.repository.TaskRepository;
 import ru.alex.task_managemen_system.repository.UserRepository;
+import ru.alex.task_managemen_system.service.TaskService;
 import ru.alex.task_managemen_system.service.update.update_task.UpdateComponent;
 import ru.alex.task_managemen_system.service.update.update_task.UpdateDescription;
 import ru.alex.task_managemen_system.service.update.update_task.UpdateStatus;
@@ -24,7 +25,7 @@ import java.util.concurrent.CompletableFuture;
 
 @Service
 @RequiredArgsConstructor
-public class DefaultTaskService {
+public class DefaultTaskService implements TaskService {
 
     private final TaskRepository taskRepository;
     private final ModelMapper modelMapper;
@@ -64,7 +65,6 @@ public class DefaultTaskService {
     public CompletableFuture<TaskDTO> update(String taskId,
                                              TaskDTO taskDTO) {
 
-
         Task task = taskRepository.findTaskByUuid(taskId).orElseThrow(TasksNotFoundException::new);
 
         List<UpdateComponent> updateComponents = List.of(new UpdateDescription(), new UpdateStatus(), new UpdateTitle());
@@ -80,7 +80,9 @@ public class DefaultTaskService {
                                              String taskId) {
         String id = getIdFromToken(token);
 
-        Task taskToBeDeleted = taskRepository.deleteTaskByUuidAndUser_Uuid(taskId, token).orElseThrow(TasksNotFoundException::new);
+        Task taskToBeDeleted = taskRepository
+                .deleteTaskByUuidAndUser_Uuid(taskId, token)
+                .orElseThrow(TasksNotFoundException::new);
 
         return CompletableFuture.completedFuture(convertTaskToTaskDto(taskToBeDeleted));
     }
