@@ -1,5 +1,6 @@
 package ru.alex.task_managemen_system.web.controlleradvice;
 
+import com.auth0.jwt.exceptions.TokenExpiredException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;

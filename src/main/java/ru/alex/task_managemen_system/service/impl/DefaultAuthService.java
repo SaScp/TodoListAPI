@@ -1,6 +1,7 @@
 package ru.alex.task_managemen_system.service.impl;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -25,6 +26,7 @@ import java.util.Objects;
 import java.util.concurrent.ExecutionException;
 
 @Service
+
 @RequiredArgsConstructor
 public class DefaultAuthService implements AuthService {
 
@@ -52,7 +54,7 @@ public class DefaultAuthService implements AuthService {
         jwtResponse.setUsername(user.getEmail());
         jwtResponse.setAccessToken(jwtService.createAccessToken(user.getUuid(), user.getEmail(), user.getRoles()));
         jwtResponse.setRefreshToken(jwtService.createRefreshToken(user.getUuid(), user.getEmail()));
-
+        ;
         return jwtResponse;
     }
 

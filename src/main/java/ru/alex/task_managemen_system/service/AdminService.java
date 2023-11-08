@@ -6,7 +6,8 @@ import java.util.List;
 
 public interface AdminService {
 
-    public List<User> getUsers() ;
+   List<User> getUsers() ;
+   Boolean isBlockUser(String id);
 
-    public Boolean isBlockUser(String id);
+
 }

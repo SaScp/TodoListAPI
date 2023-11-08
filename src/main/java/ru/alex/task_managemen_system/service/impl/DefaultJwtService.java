@@ -88,20 +88,34 @@ public class DefaultJwtService implements JwtService {
     }
 
     public boolean validatorAccessToken(String token) {
+        DecodedJWT decodedJWT = getVerifier(token, accessSecret);
+        if (decodedJWT == null) {
+            return false;
+        }
         return !Date.from(now.toInstant()).equals(getVerifier(token, accessSecret).getExpiresAt());
     }
 
     public boolean validatorRefreshToken(String token) {
+        DecodedJWT decodedJWT = getVerifier(token, refreshSecret);
+        if (decodedJWT == null) {
+            return false;
+        }
         return !Date.from(now.toInstant()).equals(getVerifier(token, refreshSecret).getExpiresAt());
     }
 
 
     private DecodedJWT getVerifier(String token, String secret) {
-        return JWT.require(Algorithm.HMAC256(secret))
-                .withSubject("user")
-                .withIssuer("Server")
-                .build()
-                .verify(token);
+        DecodedJWT decodedJWT = null;
+
+        try {
+             decodedJWT = JWT.require(Algorithm.HMAC256(secret))
+                    .withSubject("user")
+                    .withIssuer("Server")
+                    .build()
+                    .verify(token);
+        } catch (Exception e) {
+        }
+        return decodedJWT;
     }
 
     public String getRefreshUUID(String token) {
