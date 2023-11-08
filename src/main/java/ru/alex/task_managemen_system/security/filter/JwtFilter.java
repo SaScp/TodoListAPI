@@ -29,8 +29,8 @@ public class JwtFilter extends OncePerRequestFilter {
             if (!bearerToken.isBlank() && jwtService.validatorAccessToken(bearerToken)) {
                 try {
                     Authentication authentication = jwtService.getAuthentication(bearerToken);
-                    if (authentication != null) {
-                        SecurityContextHolder.getContext().setAuthentication(jwtService.getAuthentication(bearerToken));
+                    if (authentication != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+                        SecurityContextHolder.getContext().setAuthentication(authentication);
                     }
                 } catch (Exception e) {
                     response.sendError(HttpServletResponse.SC_FORBIDDEN);

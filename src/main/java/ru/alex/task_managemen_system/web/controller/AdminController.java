@@ -6,6 +6,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import ru.alex.task_managemen_system.model.user.User;
 import ru.alex.task_managemen_system.service.AdminService;
@@ -20,11 +21,13 @@ import java.util.List;
 @RequiredArgsConstructor
 public class AdminController {
 
-  /*  @Qualifier("defaultAdminService")
+    @Qualifier("defaultAdminService")
     private final AdminService adminService;
     @GetMapping("/users")
-    public ResponseEntity<List<User>> getAllUser() {
-        return ResponseEntity.ok().body(adminService.getUsers());
+    public ResponseEntity<List<User>> getAllUser(Authentication authentication) {
+        String a = authentication.getName();
+
+        return ResponseEntity.ok(adminService.getUsers());
     }
 
     @PostMapping("/block/{id}")
@@ -32,5 +35,5 @@ public class AdminController {
         return ResponseEntity
                 .ok()
                 .body(adminService.isBlockUser(id)? HttpStatus.ACCEPTED: HttpStatus.NOT_FOUND);
-    }*/ //TODO
+    }
 }

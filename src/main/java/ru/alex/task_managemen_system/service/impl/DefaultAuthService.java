@@ -13,11 +13,13 @@ import ru.alex.task_managemen_system.model.dto.user.LoginDTO;
 import ru.alex.task_managemen_system.model.dto.user.UserDTO;
 import ru.alex.task_managemen_system.model.response.JwtResponse;
 import ru.alex.task_managemen_system.model.user.User;
+import ru.alex.task_managemen_system.security.auth.DefaultAuthenticationProvider;
 import ru.alex.task_managemen_system.service.AuthService;
 import ru.alex.task_managemen_system.service.JwtService;
 import ru.alex.task_managemen_system.service.UserService;
 import ru.alex.task_managemen_system.util.exception.RegistrationUserException;
 import ru.alex.task_managemen_system.util.validator.UserRegistrationValidator;
+
 
 import java.util.Objects;
 import java.util.concurrent.ExecutionException;
@@ -26,7 +28,7 @@ import java.util.concurrent.ExecutionException;
 @RequiredArgsConstructor
 public class DefaultAuthService implements AuthService {
 
-    private final AuthenticationManager authProvider;
+    private final DefaultAuthenticationProvider authProvider;
 
     @Qualifier("defaultUserService")
     private final UserService userService;

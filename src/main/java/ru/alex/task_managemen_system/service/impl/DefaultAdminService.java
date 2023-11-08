@@ -1,6 +1,7 @@
 package ru.alex.task_managemen_system.service.impl;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -16,13 +17,16 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class DefaultAdminService implements AdminService {
 
     private final UserRepository userRepository;
 
     @Override
     public List<User> getUsers() {
-        return userRepository.findAll();
+        List<User> users = userRepository.findAll();
+        log.info("get user success");
+        return users;
     }
 
     @Override
@@ -30,6 +34,7 @@ public class DefaultAdminService implements AdminService {
         Optional<User> user = userRepository.findById(id);
         if (user.isPresent()) {
             user.get().setRoles(Role.ROLE_BLOCK);
+            userRepository.save(user.get());
             return true;
         }
         return false;

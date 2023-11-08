@@ -78,7 +78,6 @@ public class DefaultUserService implements UserService{
     }
 
 
-
     private User convertUserDtoToUser(UserDTO registrationDTO) {
         return modelMapper.map(registrationDTO, User.class);
     }
