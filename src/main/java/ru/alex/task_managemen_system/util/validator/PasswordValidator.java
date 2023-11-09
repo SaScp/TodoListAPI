@@ -10,9 +10,8 @@ import ru.alex.task_managemen_system.repository.UserRepository;
 
 @Component
 @RequiredArgsConstructor
-public class UserRegistrationValidator implements Validator {
+public class PasswordValidator implements Validator {
 
-   private final UserRepository userRepository;
     @Override
     public boolean supports(Class<?> clazz) {
         return User.class.equals(clazz);
@@ -21,8 +20,8 @@ public class UserRegistrationValidator implements Validator {
     @Override
     public void validate(Object target, Errors errors) {
         User user = (User) target;
-        if (userRepository.findByEmail(user.getEmail()).isPresent()) {
-            errors.rejectValue("email","404", "user with email is create");
+        if (user.getPassword().length() < 8) {
+            errors.rejectValue("password","404", "8 character!");
         }
     }
 }

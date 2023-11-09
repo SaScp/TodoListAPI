@@ -1,18 +1,16 @@
 package ru.alex.task_managemen_system.util.validator;
 
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 import ru.alex.task_managemen_system.model.dto.user.UserDTO;
 import ru.alex.task_managemen_system.model.user.User;
-import ru.alex.task_managemen_system.repository.UserRepository;
+
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @Component
-@RequiredArgsConstructor
-public class UserRegistrationValidator implements Validator {
-
-   private final UserRepository userRepository;
+public class EmailValidator implements Validator {
     @Override
     public boolean supports(Class<?> clazz) {
         return User.class.equals(clazz);
@@ -21,8 +19,9 @@ public class UserRegistrationValidator implements Validator {
     @Override
     public void validate(Object target, Errors errors) {
         User user = (User) target;
-        if (userRepository.findByEmail(user.getEmail()).isPresent()) {
-            errors.rejectValue("email","404", "user with email is create");
+        Pattern pattern = Pattern.compile("^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$");
+        if (pattern.matcher(user.getEmail()).matches()) {
+            errors.rejectValue("email","404", "email error");
         }
     }
 }

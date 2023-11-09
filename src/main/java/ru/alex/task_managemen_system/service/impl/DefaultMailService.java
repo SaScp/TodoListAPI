@@ -3,6 +3,8 @@ package ru.alex.task_managemen_system.service.impl;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.batch.item.mail.SimpleMailMessageItemWriter;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.mail.SimpleMailMessage;
@@ -20,13 +22,15 @@ import java.io.FileNotFoundException;
 public class DefaultMailService implements MailService {
 
     private final JavaMailSender mailSender;
-
+    private static final Logger logger = LoggerFactory.getLogger(DefaultMailService.class);
     public void send(String toAddress, String subject, String message) {
         SimpleMailMessage simpleMailMessage = new SimpleMailMessage();
         simpleMailMessage.setText(message);
         simpleMailMessage.setTo(toAddress);
         simpleMailMessage.setSubject(subject);
         mailSender.send(simpleMailMessage);
+
+
     }
 
 }
