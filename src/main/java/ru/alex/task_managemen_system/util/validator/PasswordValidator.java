@@ -19,7 +19,7 @@ public class PasswordValidator implements Validator {
 
     @Override
     public void validate(Object target, Errors errors) {
-        User user = (User) target;
+        UserDTO user = (UserDTO) target;
         if (user.getPassword().length() < 8) {
             errors.rejectValue("password","404", "8 character!");
         }

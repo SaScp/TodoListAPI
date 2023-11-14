@@ -1,6 +1,7 @@
 package ru.alex.task_managemen_system.service.impl;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,6 +28,7 @@ import java.util.concurrent.CompletableFuture;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class DefaultUserService implements UserService {
 
     private final UserRepository userRepository;
@@ -45,6 +47,7 @@ public class DefaultUserService implements UserService {
         user.setPassword(passwordEncoder.encode(userDTO.getPassword()));
         userRepository.save(user);
 
+        log.info(ZonedDateTime.now() + " : " + this.getClass().getName() + " : " + "save User:" + user.getUuid());
 
         return CompletableFuture.completedFuture(user);
     }
@@ -64,6 +67,8 @@ public class DefaultUserService implements UserService {
 
         user.setUpdateAt(ZonedDateTime.now());
         userRepository.save(user);
+
+        log.info(ZonedDateTime.now() + " : " + this.getClass().getName() + " : " + "save update:" + user.getUuid());
         return user;
     }
 

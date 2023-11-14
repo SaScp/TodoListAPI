@@ -18,7 +18,7 @@ public class EmailValidator implements Validator {
 
     @Override
     public void validate(Object target, Errors errors) {
-        User user = (User) target;
+        UserDTO user = (UserDTO) target;
         Pattern pattern = Pattern.compile("^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$");
         if (pattern.matcher(user.getEmail()).matches()) {
             errors.rejectValue("email","404", "email error");

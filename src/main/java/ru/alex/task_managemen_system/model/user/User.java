@@ -31,7 +31,6 @@ public class User implements Serializable {
     private String name;
 
     @Column(name = "email", unique = true)
-    @Email
     @NotNull(message = "the email must not be null")
     private String email;
 

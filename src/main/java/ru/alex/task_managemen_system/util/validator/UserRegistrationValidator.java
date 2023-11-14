@@ -20,7 +20,7 @@ public class UserRegistrationValidator implements Validator {
 
     @Override
     public void validate(Object target, Errors errors) {
-        User user = (User) target;
+        UserDTO user = (UserDTO) target;
         if (userRepository.findByEmail(user.getEmail()).isPresent()) {
             errors.rejectValue("email","404", "user with email is create");
         }
