@@ -27,4 +27,5 @@ jwt:
     refresh: lKwppuqF4a+agwP0TIUo
 logging:
   level:
-    org.apache.catalina.core.ContainerBase: off
+    org.springframework.security: trace
+  

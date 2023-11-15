@@ -19,22 +19,22 @@ import java.util.Optional;
 public class DefaultAdminService implements AdminService {
 
     private final UserRepository userRepository;
-    private static final Logger logger = LoggerFactory.getLogger(DefaultAdminService.class);
-
     @Override
     public List<User> getUsers() {
-        return null;
+        List<User> users = userRepository.findAll();
+        return users;
     }
 
     @Override
     public Boolean isBlockUser(String id) {
         Optional<User> user = userRepository.findById(id);
         if (user.isPresent()) {
-            user.get().setRoles(Role.BLOCK);
-            logger.info(String.format("User with %s is block", id));
+            user.get().setRoles(Role.ROLE_BLOCK);
+            userRepository.save(user.get());
             return true;
         }
-        logger.info(String.format("User with %s not found", id));
         return false;
     }
+
+
 }

@@ -5,6 +5,7 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import lombok.RequiredArgsConstructor;
+import org.jetbrains.annotations.Nullable;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -88,20 +89,35 @@ public class DefaultJwtService implements JwtService {
     }
 
     public boolean validatorAccessToken(String token) {
+        DecodedJWT decodedJWT = getVerifier(token, accessSecret);
+        if (decodedJWT == null) {
+            return false;
+        }
         return !Date.from(now.toInstant()).equals(getVerifier(token, accessSecret).getExpiresAt());
     }
 
     public boolean validatorRefreshToken(String token) {
+        DecodedJWT decodedJWT = getVerifier(token, refreshSecret);
+        if (decodedJWT == null) {
+            return false;
+        }
         return !Date.from(now.toInstant()).equals(getVerifier(token, refreshSecret).getExpiresAt());
     }
 
 
+    @Nullable
     private DecodedJWT getVerifier(String token, String secret) {
-        return JWT.require(Algorithm.HMAC256(secret))
-                .withSubject("user")
-                .withIssuer("Server")
-                .build()
-                .verify(token);
+        DecodedJWT decodedJWT;
+        try {
+             decodedJWT = JWT.require(Algorithm.HMAC256(secret))
+                    .withSubject("user")
+                    .withIssuer("Server")
+                    .build()
+                    .verify(token);
+        } catch (Exception e) {
+            return null;
+        }
+        return decodedJWT;
     }
 
     public String getRefreshUUID(String token) {

@@ -11,6 +11,7 @@ import ru.alex.task_managemen_system.model.task.Task;
 import ru.alex.task_managemen_system.repository.TaskRepository;
 import ru.alex.task_managemen_system.repository.UserRepository;
 import ru.alex.task_managemen_system.service.TaskService;
+import ru.alex.task_managemen_system.service.logger.DefaultSenderLogger;
 import ru.alex.task_managemen_system.service.update.update_task.UpdateComponent;
 import ru.alex.task_managemen_system.service.update.update_task.UpdateDescription;
 import ru.alex.task_managemen_system.service.update.update_task.UpdateStatus;
@@ -31,7 +32,7 @@ public class DefaultTaskService implements TaskService {
     private final ModelMapper modelMapper;
     private final UserRepository userRepository;
     private final DefaultJwtService jwtService;
-
+    private final DefaultSenderLogger senderLogger;
     @Async
     public CompletableFuture<List<TaskDTO>> findAll(String id) {
         List<TaskDTO> taskDTOs = taskRepository
@@ -39,6 +40,10 @@ public class DefaultTaskService implements TaskService {
                 .orElseThrow(UserNotFoundException::new)
                 .stream().map(this::convertTaskToTaskDto)
                 .toList();
+        senderLogger.execute(ZonedDateTime.now() + " : " +
+                this.getClass().getName() + " : " +
+                "FindAllTask", false);
+
         return CompletableFuture.completedFuture(taskDTOs);
     }
 
@@ -58,6 +63,9 @@ public class DefaultTaskService implements TaskService {
         task.setStatus(Status.IN_PROGRESS);
 
         taskRepository.save(task);
+        senderLogger.execute(ZonedDateTime.now() + " : " +
+                this.getClass().getName() + " : " +
+                "save task: " + task.getUuid(), false);
         return CompletableFuture.completedFuture(convertTaskToTaskDto(task));
     }
 
@@ -72,7 +80,9 @@ public class DefaultTaskService implements TaskService {
         for (var i : updateComponents) {
             i.execute(taskDTO, task);
         }
-
+        senderLogger.execute(ZonedDateTime.now() + " : " +
+                this.getClass().getName() + " : " +
+                "update task: " + task.getUuid(), false);
         return CompletableFuture.completedFuture(convertTaskToTaskDto(task));
     }
     @Async
@@ -83,6 +93,10 @@ public class DefaultTaskService implements TaskService {
         Task taskToBeDeleted = taskRepository
                 .deleteTaskByUuidAndUser_Uuid(taskId, token)
                 .orElseThrow(TasksNotFoundException::new);
+
+        senderLogger.execute(ZonedDateTime.now() + " : " +
+                this.getClass().getName() + " : " +
+                "delete task: " + taskToBeDeleted.getUuid(), false);
 
         return CompletableFuture.completedFuture(convertTaskToTaskDto(taskToBeDeleted));
     }

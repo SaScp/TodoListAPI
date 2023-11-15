@@ -11,15 +11,12 @@ import java.time.ZonedDateTime;
 @Data
 public class TaskDTO {
 
-    @NotNull
     private String title;
 
-    @NotNull
     private String description;
 
-    @NotNull
     private ZonedDateTime expirationDate;
-    @NotNull
+
     @Enumerated(value = EnumType.STRING)
     private Status status;
 

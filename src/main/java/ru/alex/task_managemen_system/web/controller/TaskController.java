@@ -33,11 +33,11 @@ public class TaskController {
         return ResponseEntity.ok().body(task);
     }
 
-    @PatchMapping("/update/{id}")
+    /*@PatchMapping("/update/{id}")
     public ResponseEntity<TaskDTO> update(@PathVariable("id") String id,
                                           @RequestBody @Valid TaskDTO taskDTO) throws ExecutionException, InterruptedException {
         return ResponseEntity.ok().body(taskService.update(id, taskDTO).get());
-    }
+    }*/ //TODO
     @DeleteMapping("/delete/{taskId}")
     public ResponseEntity<TaskDTO> delete(@PathVariable("taskId") String id,
                                           @RequestHeader("Authorization") String token) throws ExecutionException, InterruptedException {

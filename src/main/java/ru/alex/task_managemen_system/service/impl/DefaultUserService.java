@@ -1,6 +1,7 @@
 package ru.alex.task_managemen_system.service.impl;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -8,6 +9,7 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import ru.alex.task_managemen_system.service.UserService;
+import ru.alex.task_managemen_system.service.logger.DefaultSenderLogger;
 import ru.alex.task_managemen_system.service.update.update_user.UpdateComponent;
 import ru.alex.task_managemen_system.service.update.update_user.UpdateEmail;
 import ru.alex.task_managemen_system.service.update.update_user.UpdateName;
@@ -27,26 +29,28 @@ import java.util.concurrent.CompletableFuture;
 
 @Service
 @RequiredArgsConstructor
-public class DefaultUserService implements UserService{
+@Slf4j
+public class DefaultUserService implements UserService {
 
     private final UserRepository userRepository;
     private final ModelMapper modelMapper;
     private final PasswordEncoder passwordEncoder;
-    private static final Logger logger = LoggerFactory.getLogger(DefaultUserService.class);
+    private final DefaultSenderLogger senderLogger;
 
     public CompletableFuture<User> save(final UserDTO userDTO) {
         User user = convertUserDtoToUser(userDTO);
 
         user.setUuid(UUID.randomUUID().toString());
-        user.setRoles(Role.USER);
+        user.setRoles(Role.ROLE_USER);
 
         user.setCreateAt(ZonedDateTime.now());
         user.setUpdateAt(ZonedDateTime.now());
 
         user.setPassword(passwordEncoder.encode(userDTO.getPassword()));
         userRepository.save(user);
-
-
+        senderLogger.execute(ZonedDateTime.now() + " : " +
+                this.getClass().getName() + " : " +
+                "save User:" + user.getUuid(), false);
 
         return CompletableFuture.completedFuture(user);
     }
@@ -66,7 +70,9 @@ public class DefaultUserService implements UserService{
 
         user.setUpdateAt(ZonedDateTime.now());
         userRepository.save(user);
-        logger.info(String.format("User %s is update! time: %t", user.getEmail(), new Date()));
+        senderLogger.execute(ZonedDateTime.now() + " : " +
+                this.getClass().getName() + " : " +
+                "save update:" + user.getUuid(), false);
         return user;
     }
 
@@ -77,7 +83,6 @@ public class DefaultUserService implements UserService{
     public User getUserByEmail(String email) {
         return userRepository.findByEmail(email).orElseThrow(UserNotFoundException::new);
     }
-
 
 
     private User convertUserDtoToUser(UserDTO registrationDTO) {

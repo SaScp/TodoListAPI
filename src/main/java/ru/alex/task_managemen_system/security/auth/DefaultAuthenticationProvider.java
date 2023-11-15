@@ -23,13 +23,13 @@ public class DefaultAuthenticationProvider implements AuthenticationProvider {
 
         String name = authentication.getName();
 
-        UserDetails userDetails = userDetailsService.loadUserByUsername(name);
+        DefaultUserDetails userDetails = (DefaultUserDetails) userDetailsService.loadUserByUsername(name);
 
         if (!passwordEncoder.matches(authentication.getCredentials().toString(), userDetails.getPassword())) {
             throw new PasswordEncoderException();
         }
 
-        if (!userDetails.isAccountNonExpired()) {
+        if (userDetails.isAccountNonLocked()) {
             throw new AccountIsBlockException(
                     String.format("Account with email %s is block", userDetails.getUsername()));
         }
