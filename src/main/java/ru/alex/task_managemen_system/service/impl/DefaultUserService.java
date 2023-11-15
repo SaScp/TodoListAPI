@@ -9,6 +9,7 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import ru.alex.task_managemen_system.service.UserService;
+import ru.alex.task_managemen_system.service.logger.DefaultSenderLogger;
 import ru.alex.task_managemen_system.service.update.update_user.UpdateComponent;
 import ru.alex.task_managemen_system.service.update.update_user.UpdateEmail;
 import ru.alex.task_managemen_system.service.update.update_user.UpdateName;
@@ -34,6 +35,7 @@ public class DefaultUserService implements UserService {
     private final UserRepository userRepository;
     private final ModelMapper modelMapper;
     private final PasswordEncoder passwordEncoder;
+    private final DefaultSenderLogger senderLogger;
 
     public CompletableFuture<User> save(final UserDTO userDTO) {
         User user = convertUserDtoToUser(userDTO);
@@ -46,8 +48,9 @@ public class DefaultUserService implements UserService {
 
         user.setPassword(passwordEncoder.encode(userDTO.getPassword()));
         userRepository.save(user);
-
-        log.info(ZonedDateTime.now() + " : " + this.getClass().getName() + " : " + "save User:" + user.getUuid());
+        senderLogger.execute(ZonedDateTime.now() + " : " +
+                this.getClass().getName() + " : " +
+                "save User:" + user.getUuid(), false);
 
         return CompletableFuture.completedFuture(user);
     }
@@ -67,8 +70,9 @@ public class DefaultUserService implements UserService {
 
         user.setUpdateAt(ZonedDateTime.now());
         userRepository.save(user);
-
-        log.info(ZonedDateTime.now() + " : " + this.getClass().getName() + " : " + "save update:" + user.getUuid());
+        senderLogger.execute(ZonedDateTime.now() + " : " +
+                this.getClass().getName() + " : " +
+                "save update:" + user.getUuid(), false);
         return user;
     }
 
