@@ -47,6 +47,7 @@ public class DefaultAuthService implements AuthService {
     @Qualifier("defaultMailService")
     private final DefaultMailService mailService;
 
+
     public JwtResponse login(final LoginDTO loginRequest) {
         JwtResponse jwtResponse = new JwtResponse();
         authProvider.authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword()));

@@ -11,12 +11,10 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
-import ru.alex.task_managemen_system.model.response.JwtResponse;
 import ru.alex.task_managemen_system.service.impl.DefaultJwtService;
-import ru.alex.task_managemen_system.service.logger.DefaultSenderLogger;
+import ru.alex.task_managemen_system.service.logger.DefaultSenderLog;
 
 import java.io.IOException;
-import java.time.ZonedDateTime;
 
 @Component
 @Slf4j
@@ -24,7 +22,7 @@ import java.time.ZonedDateTime;
 public class JwtFilter extends OncePerRequestFilter {
 
     private final DefaultJwtService jwtService;
-    private final DefaultSenderLogger senderLogger;
+    private final DefaultSenderLog senderLogger;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
@@ -34,8 +32,7 @@ public class JwtFilter extends OncePerRequestFilter {
             bearerToken = bearerToken.substring(7);
             if (!bearerToken.isBlank() && jwtService.validatorAccessToken(bearerToken)) {
 
-                senderLogger.execute(ZonedDateTime.now() + " : " +
-                        this.getClass().getName() + " : " +
+                senderLogger.execute(this.getClass().getName() + " : " +
                         "bearer token exists", false);
 
                 try {
@@ -43,21 +40,18 @@ public class JwtFilter extends OncePerRequestFilter {
                     if (authentication != null && SecurityContextHolder.getContext().getAuthentication() == null) {
                         SecurityContextHolder.getContext().setAuthentication(authentication);
 
-                        senderLogger.execute(ZonedDateTime.now() + " : " +
-                                this.getClass().getName() + " : " +
+                        senderLogger.execute(this.getClass().getName() + " : " +
                                 "SecurityContextHolder is create", false);
                     }
                 } catch (Exception e) {
 
-                    senderLogger.execute(ZonedDateTime.now() + " : " +
-                            this.getClass().getName() + " : " +
+                    senderLogger.execute(this.getClass().getName() + " : " +
                             "USER_FORBIDDEN", true);
                     response.sendError(HttpServletResponse.SC_FORBIDDEN);
                     return;
                 }
             } else {
-                senderLogger.execute(ZonedDateTime.now() + " : " +
-                        this.getClass().getName() + " : " +
+                senderLogger.execute(this.getClass().getName() + " : " +
                         "USER_UNAUTHORIZED", true);
                 response.sendError(HttpServletResponse.SC_UNAUTHORIZED);
                 return;

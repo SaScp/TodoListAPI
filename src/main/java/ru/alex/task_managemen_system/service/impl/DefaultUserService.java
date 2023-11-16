@@ -3,13 +3,10 @@ package ru.alex.task_managemen_system.service.impl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import ru.alex.task_managemen_system.service.UserService;
-import ru.alex.task_managemen_system.service.logger.DefaultSenderLogger;
+import ru.alex.task_managemen_system.service.logger.DefaultSenderLog;
 import ru.alex.task_managemen_system.service.update.update_user.UpdateComponent;
 import ru.alex.task_managemen_system.service.update.update_user.UpdateEmail;
 import ru.alex.task_managemen_system.service.update.update_user.UpdateName;
@@ -22,7 +19,6 @@ import ru.alex.task_managemen_system.repository.UserRepository;
 import ru.alex.task_managemen_system.util.exception.UserNotFoundException;
 
 import java.time.ZonedDateTime;
-import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
@@ -35,7 +31,7 @@ public class DefaultUserService implements UserService {
     private final UserRepository userRepository;
     private final ModelMapper modelMapper;
     private final PasswordEncoder passwordEncoder;
-    private final DefaultSenderLogger senderLogger;
+    private final DefaultSenderLog senderLogger;
 
     public CompletableFuture<User> save(final UserDTO userDTO) {
         User user = convertUserDtoToUser(userDTO);
@@ -48,7 +44,7 @@ public class DefaultUserService implements UserService {
 
         user.setPassword(passwordEncoder.encode(userDTO.getPassword()));
         userRepository.save(user);
-        senderLogger.execute(ZonedDateTime.now() + " : " +
+        senderLogger.execute(
                 this.getClass().getName() + " : " +
                 "save User:" + user.getUuid(), false);
 
@@ -70,7 +66,7 @@ public class DefaultUserService implements UserService {
 
         user.setUpdateAt(ZonedDateTime.now());
         userRepository.save(user);
-        senderLogger.execute(ZonedDateTime.now() + " : " +
+        senderLogger.execute(
                 this.getClass().getName() + " : " +
                 "save update:" + user.getUuid(), false);
         return user;
