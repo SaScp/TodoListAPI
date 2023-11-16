@@ -5,7 +5,7 @@ import org.springframework.stereotype.Component;
 
 @Slf4j
 @Component
-public class DefaultSenderLogger {
+public class DefaultSenderLog implements SenderLog {
 
     public void execute(String msg, boolean isError) {
             if (isError) {
