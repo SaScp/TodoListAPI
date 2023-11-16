@@ -19,6 +19,7 @@ import ru.alex.task_managemen_system.security.auth.DefaultAuthenticationProvider
 import ru.alex.task_managemen_system.service.AuthService;
 import ru.alex.task_managemen_system.service.JwtService;
 import ru.alex.task_managemen_system.service.UserService;
+import ru.alex.task_managemen_system.service.logger.DefaultSenderLog;
 import ru.alex.task_managemen_system.util.exception.RegistrationUserException;
 import ru.alex.task_managemen_system.util.validator.EmailValidator;
 import ru.alex.task_managemen_system.util.validator.PasswordValidator;
@@ -58,6 +59,7 @@ public class DefaultAuthService implements AuthService {
         jwtResponse.setUsername(user.getEmail());
         jwtResponse.setAccessToken(jwtService.createAccessToken(user.getUuid(), user.getEmail(), user.getRoles()));
         jwtResponse.setRefreshToken(jwtService.createRefreshToken(user.getUuid(), user.getEmail()));
+
         ;
         return jwtResponse;
     }
