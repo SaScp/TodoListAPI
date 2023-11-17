@@ -5,9 +5,11 @@ import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.CollectionType;
+import ru.alex.task_managemen_system.model.task.img.Image;
 import ru.alex.task_managemen_system.model.user.Role;
 import ru.alex.task_managemen_system.model.user.User;
 
+import java.awt.*;
 import java.io.Serializable;
 import java.time.ZonedDateTime;
 import java.util.List;
@@ -36,6 +38,9 @@ public class Task{
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id", referencedColumnName = "uuid")
     private User user;
+
+    @OneToMany(mappedBy = "task")
+    private List<Image> images;
 
     @Column(name = "create_at", nullable = false)
     private ZonedDateTime createAt;

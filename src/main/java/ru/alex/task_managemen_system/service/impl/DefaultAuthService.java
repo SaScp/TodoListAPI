@@ -60,7 +60,7 @@ public class DefaultAuthService implements AuthService {
         jwtResponse.setAccessToken(jwtService.createAccessToken(user.getUuid(), user.getEmail(), user.getRoles()));
         jwtResponse.setRefreshToken(jwtService.createRefreshToken(user.getUuid(), user.getEmail()));
 
-        ;
+
         return jwtResponse;
     }
 

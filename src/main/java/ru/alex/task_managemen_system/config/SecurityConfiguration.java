@@ -32,10 +32,11 @@ public class SecurityConfiguration {
 
         http.exceptionHandling(exceptionHandlingConfigurer ->
                 exceptionHandlingConfigurer.authenticationEntryPoint((request, response, authException) -> {
-                    response.setContentType("application/json");
-                    response.getWriter().write("{\"error\" : 401, \"msg\": \"UNAUTHORIZED\"}");
-                    response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-                }).accessDeniedHandler((request, response, accessDeniedException) -> {
+                            response.setContentType("application/json");
+                            response.getWriter().write("{\"error\" : 401, \"msg\": \"UNAUTHORIZED\"}");
+                            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                        }
+                ).accessDeniedHandler((request, response, accessDeniedException) -> {
                             response.setStatus(HttpServletResponse.SC_FORBIDDEN);
                             response.getWriter().write("FORBIDDEN");
                         }

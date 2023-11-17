@@ -8,6 +8,7 @@ import ru.alex.task_managemen_system.model.user.Role;
 import ru.alex.task_managemen_system.model.user.User;
 import ru.alex.task_managemen_system.repository.UserRepository;
 import ru.alex.task_managemen_system.service.AdminService;
+import ru.alex.task_managemen_system.service.logger.DefaultSenderLog;
 import ru.alex.task_managemen_system.util.exception.UserNotFoundException;
 import ru.alex.task_managemen_system.web.controller.AdminController;
 
@@ -19,6 +20,8 @@ import java.util.Optional;
 public class DefaultAdminService implements AdminService {
 
     private final UserRepository userRepository;
+
+    private final DefaultSenderLog senderLogger;
     @Override
     public List<User> getUsers() {
         List<User> users = userRepository.findAll();
@@ -31,8 +34,10 @@ public class DefaultAdminService implements AdminService {
         if (user.isPresent()) {
             user.get().setRoles(Role.ROLE_BLOCK);
             userRepository.save(user.get());
+            senderLogger.execute("user" + id + "is  block", false);
             return true;
         }
+        senderLogger.execute("user is not block", true);
         return false;
     }
 
