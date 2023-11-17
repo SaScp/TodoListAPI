@@ -31,9 +31,9 @@ public class AdminController {
     }
 
     @PostMapping("/block/{id}")
-    public ResponseEntity<HttpStatus> ban(@PathVariable String id) {
+    public ResponseEntity<HttpStatus> banedUser(@PathVariable String id) {
         return ResponseEntity
                 .ok()
-                .body(adminService.isBlockUser(id)? HttpStatus.ACCEPTED: HttpStatus.NOT_FOUND);
+                .body(adminService.isBlockUser(id)? HttpStatus.OK : HttpStatus.NOT_FOUND);
     }
 }

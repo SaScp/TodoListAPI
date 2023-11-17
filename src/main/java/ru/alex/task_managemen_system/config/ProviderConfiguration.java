@@ -12,6 +12,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import ru.alex.task_managemen_system.security.auth.DefaultAuthenticationProvider;
 import ru.alex.task_managemen_system.security.auth.DefaultUserDetailsService;
+import ru.alex.task_managemen_system.service.logger.DefaultSenderLog;
 
 @Configuration
 @RequiredArgsConstructor
@@ -19,9 +20,10 @@ public class ProviderConfiguration {
 
     private final DefaultUserDetailsService userDetailsService;
     private final BCryptPasswordEncoder passwordEncoder;
+    private final DefaultSenderLog senderLogger;
     @Bean
     public DefaultAuthenticationProvider authProvider() {
-        return new DefaultAuthenticationProvider(userDetailsService, passwordEncoder);
+        return new DefaultAuthenticationProvider(userDetailsService, passwordEncoder, senderLogger);
     }
 
     @Bean
