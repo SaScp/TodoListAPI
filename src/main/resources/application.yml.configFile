@@ -12,8 +12,8 @@ spring:
   mail:
     port: 587
     host: smtp.gmail.com
-    username: testemailforprog@gmail.com
-    password: kmwaalytexgdocfr
+    username: <your email>
+    password: <your password>
     properties:
       mail:
         smtp:
@@ -28,3 +28,6 @@ jwt:
 logging:
   level:
     org.springframework.security: trace
+server:
+  port: 8081
+  address: task-api
