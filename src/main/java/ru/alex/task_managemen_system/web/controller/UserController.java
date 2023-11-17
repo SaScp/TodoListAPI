@@ -7,9 +7,6 @@ import org.springframework.web.bind.annotation.*;
 import ru.alex.task_managemen_system.model.dto.user.UpdateDTO;
 import ru.alex.task_managemen_system.model.user.User;
 import ru.alex.task_managemen_system.service.UserService;
-import ru.alex.task_managemen_system.service.impl.DefaultJwtService;
-import ru.alex.task_managemen_system.service.impl.DefaultUserService;
-
 import java.util.concurrent.ExecutionException;
 
 @RestController

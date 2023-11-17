@@ -1,10 +1,14 @@
 package ru.alex.task_managemen_system.model.task.img;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 import ru.alex.task_managemen_system.model.task.Task;
 
 @Entity
 @Table(name = "t_img_task")
+@Getter
+@Setter
 public class Image {
 
     @Id
