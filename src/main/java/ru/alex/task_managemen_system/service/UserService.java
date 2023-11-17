@@ -10,12 +10,12 @@ import java.util.concurrent.CompletableFuture;
 
 public interface UserService {
 
-    public User update(UpdateDTO updateDTO, String uuid);
+    User update(UpdateDTO updateDTO, String uuid);
 
-    public User getUserByUUID(String uuid);
+    User getUserByUUID(String uuid);
 
-    public User getUserByEmail(String email);
+     User getUserByEmail(String email);
 
     @Async
-    public CompletableFuture<User> save(UserDTO userDTO);
+     CompletableFuture<User> save(UserDTO userDTO);
 }

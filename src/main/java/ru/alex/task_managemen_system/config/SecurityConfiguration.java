@@ -9,10 +9,10 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.annotation.web.configurers.AuthorizeHttpRequestsConfigurer;
+import org.springframework.security.config.annotation.web.configurers.ExceptionHandlingConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.security.web.context.SecurityContextHolderFilter;
 import ru.alex.task_managemen_system.security.filter.JwtFilter;
 
 
@@ -21,7 +21,6 @@ import ru.alex.task_managemen_system.security.filter.JwtFilter;
 @RequiredArgsConstructor
 public class SecurityConfiguration {
 
-
     private final JwtFilter jwtFilter;
 
     @Bean
@@ -29,29 +28,29 @@ public class SecurityConfiguration {
 
         http.csrf(AbstractHttpConfigurer::disable);
         http.httpBasic(AbstractHttpConfigurer::disable);
-
-        http.exceptionHandling(exceptionHandlingConfigurer ->
-                exceptionHandlingConfigurer.authenticationEntryPoint((request, response, authException) -> {
-                    response.setContentType("application/json");
-                    response.getWriter().write("{\"error\" : 401, \"msg\": \"UNAUTHORIZED\"}");
-                    response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-                }).accessDeniedHandler((request, response, accessDeniedException) -> {
-                            response.setStatus(HttpServletResponse.SC_FORBIDDEN);
-                            response.getWriter().write("FORBIDDEN");
-                        }
-                )
-        );
-        http.sessionManagement(session ->
-                session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-        );
-
-        http.authorizeHttpRequests(this::getAuthHttpRequest);
-
         http.anonymous(AbstractHttpConfigurer::disable);
+
+        http.exceptionHandling(this::getExceptionHandlingRequest);
+        http.authorizeHttpRequests(this::getAuthHttpRequest);
 
         http.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
 
+        http.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
+
         return http.build();
+    }
+
+    private void getExceptionHandlingRequest(ExceptionHandlingConfigurer<HttpSecurity> exceptionHandlingConfigurer) {
+                exceptionHandlingConfigurer.authenticationEntryPoint((request, response, authException) -> {
+                            response.setContentType("application/json");
+                            response.getWriter().write("{\"error\" : 401, \"msg\": \"UNAUTHORIZED\"}");
+                            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                        }
+                ).accessDeniedHandler((request, response, accessDeniedException) -> {
+                            response.setStatus(HttpServletResponse.SC_FORBIDDEN);
+                            response.getWriter().write("FORBIDDEN");
+                        }
+                );
     }
 
     private void getAuthHttpRequest(AuthorizeHttpRequestsConfigurer<HttpSecurity>.AuthorizationManagerRequestMatcherRegistry authHttpRequest) {
@@ -62,4 +61,5 @@ public class SecurityConfiguration {
                 .anyRequest()
                 .authenticated();
     }
+
 }

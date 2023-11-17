@@ -105,11 +105,10 @@ public class DefaultJwtService implements JwtService {
     }
 
 
-
     private DecodedJWT getVerifier(String token, String secret) {
         DecodedJWT decodedJWT;
         try {
-             decodedJWT = JWT.require(Algorithm.HMAC256(secret))
+            decodedJWT = JWT.require(Algorithm.HMAC256(secret))
                     .withSubject("user")
                     .withIssuer("Server")
                     .build()
@@ -123,6 +122,7 @@ public class DefaultJwtService implements JwtService {
     public String getRefreshUUID(String token) {
         return getVerifier(token, refreshSecret).getClaim("id").asString();
     }
+
     public String getAccessUUID(String token) {
         return getVerifier(token, accessSecret).getClaim("id").asString();
     }

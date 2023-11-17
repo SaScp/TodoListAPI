@@ -1,7 +1,6 @@
 package ru.alex.task_managemen_system.security.auth;
 
 import lombok.AllArgsConstructor;
-import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -43,10 +42,7 @@ public class DefaultUserDetails implements UserDetails {
     public boolean isAccountNonLocked() {
         List<String> auth = authorities.stream().map(SimpleGrantedAuthority::getAuthority).toList();
 
-        if (!auth.contains("ROLE_BLOCK")) {
-            return false;
-        }
-        return true;
+        return auth.contains("ROLE_BLOCK");
     }
 
     @Override
