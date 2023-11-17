@@ -46,7 +46,7 @@ public class DefaultUserService implements UserService {
         userRepository.save(user);
         senderLogger.execute(
                 this.getClass().getName() + " : " +
-                "save User:" + user.getUuid(), false);
+                        "save User:" + user.getUuid(), false);
 
         return CompletableFuture.completedFuture(user);
     }
@@ -68,9 +68,10 @@ public class DefaultUserService implements UserService {
         userRepository.save(user);
         senderLogger.execute(
                 this.getClass().getName() + " : " +
-                "save update:" + user.getUuid(), false);
+                        "save update:" + user.getUuid(), false);
         return user;
     }
+
 
     public User getUserByUUID(String uuid) {
         return userRepository.findById(uuid).orElseThrow(UserNotFoundException::new);
@@ -79,7 +80,6 @@ public class DefaultUserService implements UserService {
     public User getUserByEmail(String email) {
         return userRepository.findByEmail(email).orElseThrow(UserNotFoundException::new);
     }
-
 
     private User convertUserDtoToUser(UserDTO registrationDTO) {
         return modelMapper.map(registrationDTO, User.class);

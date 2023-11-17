@@ -33,6 +33,7 @@ public class DefaultTaskService implements TaskService {
     private final UserRepository userRepository;
     private final DefaultJwtService jwtService;
     private final DefaultSenderLog senderLogger;
+
     @Async
     public CompletableFuture<List<TaskDTO>> findAll(String id) {
         List<TaskDTO> taskDTOs = taskRepository
@@ -82,9 +83,10 @@ public class DefaultTaskService implements TaskService {
         }
         senderLogger.execute(
                 this.getClass().getName() + " : " +
-                "update task: " + task.getUuid(), false);
+                        "update task: " + task.getUuid(), false);
         return CompletableFuture.completedFuture(convertTaskToTaskDto(task));
     }
+
     @Async
     public CompletableFuture<TaskDTO> delete(String token,
                                              String taskId) {
@@ -96,7 +98,7 @@ public class DefaultTaskService implements TaskService {
 
         senderLogger.execute(
                 this.getClass().getName() + " : " +
-                "delete task: " + taskToBeDeleted.getUuid(), false);
+                        "delete task: " + taskToBeDeleted.getUuid(), false);
 
         return CompletableFuture.completedFuture(convertTaskToTaskDto(taskToBeDeleted));
     }

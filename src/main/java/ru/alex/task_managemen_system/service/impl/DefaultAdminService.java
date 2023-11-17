@@ -22,6 +22,7 @@ public class DefaultAdminService implements AdminService {
     private final UserRepository userRepository;
 
     private final DefaultSenderLog senderLogger;
+
     @Override
     public List<User> getUsers() {
         List<User> users = userRepository.findAll();

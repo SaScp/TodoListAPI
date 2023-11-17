@@ -19,7 +19,7 @@ import java.util.Set;
 @Setter
 @Entity
 @Table(name = "t_task")
-public class Task{
+public class Task {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)

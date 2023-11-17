@@ -17,5 +17,4 @@ public interface TaskRepository extends JpaRepository<Task, String> {
     Optional<Task> deleteTaskByUuidAndUser_Uuid(String taskId, String userId);
 
 
-
 }

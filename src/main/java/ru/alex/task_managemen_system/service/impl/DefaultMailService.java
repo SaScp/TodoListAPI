@@ -16,6 +16,7 @@ public class DefaultMailService implements MailService {
 
     private final JavaMailSender mailSender;
     private final DefaultSenderLog senderLogger;
+
     public void send(String toAddress, String subject, String message) {
         SimpleMailMessage simpleMailMessage = new SimpleMailMessage();
         simpleMailMessage.setText(message);
@@ -26,12 +27,12 @@ public class DefaultMailService implements MailService {
 
             senderLogger.execute(
                     this.getClass().getName() + " : " +
-                    "message send to email: " + toAddress, false);
+                            "message send to email: " + toAddress, false);
         } catch (SendToEmailException e) {
 
             senderLogger.execute(
                     this.getClass().getName() + " : " +
-                    "message not send to email: " + toAddress + " because \n" + e.getMessage(), true);
+                            "message not send to email: " + toAddress + " because \n" + e.getMessage(), true);
         }
 
     }
