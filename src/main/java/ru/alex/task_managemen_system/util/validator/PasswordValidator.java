@@ -14,7 +14,7 @@ public class PasswordValidator implements Validator {
 
     @Override
     public boolean supports(Class<?> clazz) {
-        return User.class.equals(clazz);
+        return UserDTO.class.equals(clazz);
     }
 
     @Override

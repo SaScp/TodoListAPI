@@ -13,7 +13,7 @@ import java.util.regex.Pattern;
 public class EmailValidator implements Validator {
     @Override
     public boolean supports(Class<?> clazz) {
-        return User.class.equals(clazz);
+        return UserDTO.class.equals(clazz);
     }
 
     @Override
