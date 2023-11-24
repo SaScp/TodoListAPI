@@ -3,12 +3,16 @@ package ru.alex.task_managemen_system.web.controller;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+
 import org.springframework.web.bind.annotation.*;
-import ru.alex.task_managemen_system.model.dto.task.RegistrationTaskDTO;
+import ru.alex.task_managemen_system.model.dto.img.ImageDTO;
+
 import ru.alex.task_managemen_system.model.dto.task.TaskDTO;
+import ru.alex.task_managemen_system.model.task.Task;
 import ru.alex.task_managemen_system.service.TaskService;
-import ru.alex.task_managemen_system.service.impl.DefaultTaskService;
 
 import java.util.List;
 import java.util.concurrent.ExecutionException;
@@ -27,7 +31,7 @@ public class TaskController {
     }
 
     @PostMapping("/add/{userId}")
-    public ResponseEntity<TaskDTO> add(@RequestBody @Valid RegistrationTaskDTO taskDTO,
+    public ResponseEntity<TaskDTO> add(@RequestBody @Valid TaskDTO taskDTO,
                                        @PathVariable("userId") String userId) throws ExecutionException, InterruptedException {
         TaskDTO task = taskService.save(taskDTO, userId).get();
         return ResponseEntity.ok().body(task);
@@ -39,8 +43,11 @@ public class TaskController {
         return ResponseEntity.ok().body(taskService.update(id, taskDTO).get());
     }
     @DeleteMapping("/delete/{taskId}")
-    public ResponseEntity<TaskDTO> delete(@PathVariable("taskId") String id,
-                                          @RequestHeader("Authorization") String token) throws ExecutionException, InterruptedException {
-        return ResponseEntity.ok().body(taskService.delete(token, id).get());
+    public ResponseEntity<TaskDTO> delete(@PathVariable("taskId") String id) throws ExecutionException, InterruptedException {
+        return ResponseEntity.ok().body(taskService.delete(id).get());
+    }
+    @PatchMapping("/add-image/{id}")
+    public ResponseEntity<HttpStatus> add(@PathVariable("id") String id, @RequestBody ImageDTO imageDTO) {
+        return ResponseEntity.ok().body(taskService.addImg(id, imageDTO)? HttpStatus.CREATED: HttpStatus.BAD_GATEWAY);
     }
 }

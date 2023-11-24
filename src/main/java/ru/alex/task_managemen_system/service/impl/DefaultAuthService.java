@@ -1,16 +1,12 @@
 package ru.alex.task_managemen_system.service.impl;
 
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.stereotype.Service;
 
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.Validator;
-import ru.alex.task_managemen_system.model.dto.task.RegistrationTaskDTO;
-import ru.alex.task_managemen_system.model.dto.task.TaskDTO;
 import ru.alex.task_managemen_system.model.dto.user.LoginDTO;
 import ru.alex.task_managemen_system.model.dto.user.UserDTO;
 import ru.alex.task_managemen_system.model.response.JwtResponse;
@@ -19,7 +15,6 @@ import ru.alex.task_managemen_system.security.auth.DefaultAuthenticationProvider
 import ru.alex.task_managemen_system.service.AuthService;
 import ru.alex.task_managemen_system.service.JwtService;
 import ru.alex.task_managemen_system.service.UserService;
-import ru.alex.task_managemen_system.service.logger.DefaultSenderLog;
 import ru.alex.task_managemen_system.util.exception.RegistrationUserException;
 import ru.alex.task_managemen_system.util.validator.EmailValidator;
 import ru.alex.task_managemen_system.util.validator.PasswordValidator;

@@ -8,7 +8,7 @@ import org.hibernate.annotations.CollectionType;
 import ru.alex.task_managemen_system.model.user.Role;
 import ru.alex.task_managemen_system.model.user.User;
 
-import java.awt.*;
+
 import java.io.Serializable;
 import java.time.ZonedDateTime;
 import java.util.List;
@@ -18,7 +18,7 @@ import java.util.Set;
 @Setter
 @Entity
 @Table(name = "t_task")
-public class Task {
+public class Task implements Serializable{
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -43,4 +43,11 @@ public class Task {
 
     @Column(name = "expiration_date", nullable = false)
     private ZonedDateTime expirationDate;
+
+    @OneToMany(mappedBy = "task", cascade = CascadeType.ALL,fetch = FetchType.EAGER)
+    private List<Image> images;
+
+    public void add(Image image) {
+        images.add(image);
+    }
 }
