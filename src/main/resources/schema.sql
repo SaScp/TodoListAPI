@@ -22,3 +22,8 @@ create table if not exists t_img_task(
     img varchar(255) not null,
     task_id varchar(255) references t_task(uuid) on delete cascade
     );
+create table if not exists t_role(
+    role_id varchar(255) primary key,
+    c_role varchar(255) not null,
+    task_id varchar(255) references t_task(uuid) on delete cascade
+);

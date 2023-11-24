@@ -36,4 +36,5 @@ public class AdminController {
                 .ok()
                 .body(adminService.isBlockUser(id)? HttpStatus.OK : HttpStatus.NOT_FOUND);
     }
+
 }
